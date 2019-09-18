@@ -1,0 +1,31 @@
+<resources>
+    <style name="VSelectorUiImpl.Media.AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/v_selector_ui_impl_colorPrimary</item>
+        <item name="colorPrimaryDark">@color/v_selector_ui_impl_colorPrimaryDark</item>
+        <item name="colorAccent">@color/v_selector_ui_impl_colorAccent</item>
+    </style>
+
+    <!-- MediaActivity Theme-->
+    <style name="VSelectorUiImpl.Media.AppTheme.NoActionBar" parent="VSelectorUiImpl.Media.AppTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:fitsSystemWindows">false</item>
+    </style>
+
+    <style name="VSelectorUiImpl.Media.PopupAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/v_selector_ui_impl_fade_in</item>
+        <item name="android:windowExitAnimation">@anim/v_selector_ui_impl_fade_out</item>
+    </style>
+
+    <style name="VSelectorUiImpl.Media.ToolbarTheme" parent="VSelectorUiImpl.Media.AppTheme.NoActionBar" >
+        <item name="titleTextColor">@color/v_selector_ui_impl_white</item>
+        <item name="android:textColorSecondary">@color/v_selector_ui_impl_white</item>
+        <item name="android:textColor">@color/v_selector_ui_impl_white</item>
+        <item name="android:background">@color/v_selector_ui_impl_colorPrimaryDark</item>
+    </style>
+
+    <!-- TextAppearance -->
+    <style name="VSelectorUiImpl.Media.TextAppearance.App.Medium" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/v_selector_ui_impl_text_size_medium</item>
+    </style>
+
+</resources>

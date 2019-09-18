@@ -1,0 +1,14 @@
+<resources>
+    <dimen name="v_selector_ui_impl_activity_horizontal_margin">16dp</dimen>
+    <dimen name="v_selector_ui_impl_activity_vertical_margin">16dp</dimen>
+
+    <dimen name="v_selector_ui_impl_text_size_xlarge">16sp</dimen>
+    <dimen name="v_selector_ui_impl_text_size_large">14sp</dimen>
+    <dimen name="v_selector_ui_impl_text_size_medium">12sp</dimen>
+    <dimen name="v_selector_ui_impl_text_size_small">10sp</dimen>
+
+    <dimen name="v_selector_ui_impl_item_spacing">8dp</dimen>
+    <dimen name="v_selector_ui_impl_item_half_spacing">4dp</dimen>
+    <dimen name="v_selector_ui_impl_media_margin">2dp</dimen>
+    <dimen name="v_selector_ui_impl_corner_radius">2dp</dimen>
+</resources>

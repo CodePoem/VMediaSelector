@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="v_selector_ui_impl_app_name">vmediaselector</string>
+    <string name="v_selector_ui_impl_ok">OK</string>
+    <string name="v_selector_ui_impl_fab_label_camera">take a shot</string>
+
+    <string name="v_selector_ui_impl_image_preview_title_fmt">%1$s/%2$s</string>
+    <string name="v_selector_ui_impl_image_preview_ok_fmt">%1$s/%2$s OK</string>
+    <string name="v_selector_ui_impl_image_select_ok_fmt">(%1$s/%2$s) OK</string>
+    <string name="v_selector_ui_impl_album_images_fmt">(%d)</string>
+
+    <string name="v_selector_ui_impl_max_image_over_fmt">%d picture is limited</string>
+    <string name="v_selector_ui_impl_gif_too_big">the gif is too big!</string>
+    <string name="v_selector_ui_impl_pick_single_video">Pick a video</string>
+    <string name="v_selector_ui_impl_pick_multi_image">Pick pictures</string>
+    <string name="v_selector_ui_impl_pick_single_image">Pick a picture</string>
+    <string name="v_selector_ui_impl_video_title">videos</string>
+    <string name="v_selector_ui_impl_storage_deny">Device storage read error or temporarily unavailable. Please try again later</string>
+    <string name="v_selector_ui_impl_finish">finish</string>
+    <string name="v_selector_ui_impl_start_pick">start</string>
+    <string name="v_selector_ui_impl_load_image_fail">load fail!</string>
+    <string name="v_selector_ui_impl_storage_permission_deny">You need to access the storage device to select the picture
+        , please allow "storage space" right in the "System Settings" dialog box or authorization.</string>
+    <string name="v_selector_ui_impl_camera_permission_deny">To access your camera to take pictures,
+        enable the "Use Camera" permission in the "System Settings" or Authorization dialog box.</string>
+    <string name="v_selector_ui_impl_camera_unavailble">Camera is unavailable, please check the camera permission!</string>
+    <string name="v_selector_ui_impl_handling">Processing</string>
+    <string name="v_selector_ui_impl_default_album">Pictures</string>
+    <string name="v_selector_ui_impl_nothing_found">nothing!</string>
+    <string name="v_selector_ui_impl_too_many_picture_fmt">You can only select up to %d pictures</string>
+    <string name="v_selector_ui_impl_default_album_name">Pictures</string>
+    <string name="v_selector_ui_impl_preview">Preview</string>
+</resources>

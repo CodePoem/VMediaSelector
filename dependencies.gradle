@@ -1,0 +1,40 @@
+// Test package version
+def junitVer = "4.12"
+def androidxTestExtJunitVer = "1.1.0"
+def androidxTestEspressoCoreVer = "3.1.1"
+// normal package version
+def androidxAppcompatVer = "1.0.0"
+def androidxRecyclerViewVer = "1.0.0"
+def androidxConstraintLayoutVer = "1.1.3"
+
+def vOnResultVer = "1.0.2"
+def vSelectorCore = "1.0.0"
+def vSelectorUI = "1.0.0"
+
+def glide = "4.9.0"
+
+ext {
+    android = [
+            applicationId    : "com.vdreamers.vmediaselector.sample",
+            compileSdkVersion: 28,
+            buildToolsVersion: '28.0.3',
+            minSdkVersion    : 21,
+            targetSdkVersion : 28,
+    ]
+
+    testDependencies = [
+            "junit"                   : "junit:junit:${junitVer}",
+            "androidxTestExtJunit"    : "androidx.test.ext:junit:${androidxTestExtJunitVer}",
+            "androidxTestEspressoCore": "androidx.test.espresso:espresso-core:${androidxTestEspressoCoreVer}",
+    ]
+
+    dependencies = [
+            "androidxAppcompat"       : "androidx.appcompat:appcompat:${androidxAppcompatVer}",
+            "androidxRecyclerView"    : "androidx.recyclerview:recyclerview:${androidxRecyclerViewVer}",
+            "androidxConstraintLayout": "androidx.constraintlayout:constraintlayout:${androidxConstraintLayoutVer}",
+            "vOnResult"               : "com.vdreamers.vonresult:v-onresult:${vOnResultVer}",
+            "vSelectorCore"           : "com.vdreamers.vmediaselector:selector-core:${vSelectorCore}",
+            "vSelectorUI"             : "com.vdreamers.vmediaselector:selector-core:${vSelectorUI}",
+            "glide"                   : "com.github.bumptech.glide:glide:${glide}",
+    ]
+}
