@@ -67,6 +67,7 @@ dependencies {
 
     implementation rootProject.ext.dependenciesSupport['supportAppcompat']
     implementation rootProject.ext.dependenciesSupport['supportConstraintLayout']
+    implementation rootProject.ext.dependenciesSupport['supportRecyclerView']
 
 //    implementation 'com.bilibili:boxing:1.0.4'
 //    implementation 'com.bilibili:boxing-impl:1.0.4'

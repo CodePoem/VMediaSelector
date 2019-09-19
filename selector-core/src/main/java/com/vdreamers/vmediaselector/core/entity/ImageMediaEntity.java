@@ -1,12 +1,8 @@
 package com.vdreamers.vmediaselector.core.entity;
 
-import android.content.ContentResolver;
-import android.content.ContentValues;
-import android.content.Context;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -14,10 +10,9 @@ import androidx.annotation.NonNull;
 import com.vdreamers.vmediaselector.core.scope.ImageType;
 import com.vdreamers.vmediaselector.core.scope.ImageTypeConstants;
 import com.vdreamers.vmediaselector.core.scope.MediaType;
-import com.vdreamers.vmediaselector.core.utils.LoadExecutorUtils;
-import com.vdreamers.vmediaselector.core.utils.UriFileUtils;
 
 import java.io.File;
+import java.util.UUID;
 
 
 /**
@@ -64,7 +59,8 @@ public class ImageMediaEntity extends MediaEntity implements Parcelable {
     }
 
     public ImageMediaEntity(@NonNull File file) {
-        this.mId = String.valueOf(System.currentTimeMillis());
+        this.mId = UUID.randomUUID().toString();
+        this.mUri = Uri.parse(file.toURI().toString());
         this.mSize = String.valueOf(file.length());
         this.mIsSelected = true;
     }
@@ -189,33 +185,6 @@ public class ImageMediaEntity extends MediaEntity implements Parcelable {
         }
         final ImageMediaEntity other = (ImageMediaEntity) obj;
         return !(TextUtils.isEmpty(mId) || TextUtils.isEmpty(other.mId)) && this.mId.equals(other.mId);
-    }
-
-    /**
-     * 保存图片到媒体存储
-     * save image to MediaStore.
-     */
-    public void saveMediaStore(final Context context, final ContentResolver cr) {
-        if (context == null) {
-            return;
-        }
-
-        LoadExecutorUtils.getInstance().runWorker(new Runnable() {
-            @Override
-            public void run() {
-                if (cr != null && !TextUtils.isEmpty(getId())) {
-                    ContentValues values = new ContentValues();
-                    values.put(MediaStore.Images.Media.TITLE, getId());
-                    values.put(MediaStore.Images.Media.MIME_TYPE, getMimeType());
-                    File file = UriFileUtils.getFileFromUri(context, getUri());
-                    if (file != null) {
-                        values.put(MediaStore.Images.Media.DATA, file.getAbsolutePath());
-                    }
-                    cr.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-                }
-            }
-        });
-
     }
 
     @Override

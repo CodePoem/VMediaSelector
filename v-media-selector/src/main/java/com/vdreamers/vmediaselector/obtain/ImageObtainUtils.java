@@ -91,7 +91,7 @@ public class ImageObtainUtils {
                             }
                         }
                     });
-                    MediaSelectorLogUtils.d("image compress fail!");
+                    MediaSelectorLogUtils.d("image obtain fail!");
                     return false;
                 }
 

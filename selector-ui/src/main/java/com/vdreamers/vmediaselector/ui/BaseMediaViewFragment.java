@@ -21,6 +21,7 @@ import com.vdreamers.vmediaselector.core.entity.ImageMediaEntity;
 import com.vdreamers.vmediaselector.core.entity.MediaEntity;
 import com.vdreamers.vmediaselector.core.option.SelectorOptions;
 import com.vdreamers.vmediaselector.core.selector.MediaSelector;
+import com.vdreamers.vmediaselector.core.utils.ImageMediaSaveUtils;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -407,11 +408,12 @@ public abstract class BaseMediaViewFragment extends Fragment implements Selector
                 onError(helper);
                 return;
             }
-            ImageMediaEntity cameraMedia = new ImageMediaEntity(file);
+            ImageMediaEntity cameraMedia = null;
 
             // 存储拍照后的照片到数据库
             if (SelectorOptions.getInstance().isStoreCameraImage()) {
-                cameraMedia.saveMediaStore(fragment.getActivity(), fragment.getAppCr());
+                cameraMedia = ImageMediaSaveUtils.saveMediaStore(fragment.getActivity(),
+                        fragment.getAppCr(), file);
             }
 
             fragment.onCameraFinish(cameraMedia);
