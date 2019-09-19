@@ -1,0 +1,38 @@
+apply plugin: 'com.android.library'
+
+android {
+    resourcePrefix 'v_media_selector'
+    compileSdkVersion rootProject.ext.androidSupport.compileSdkVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.androidSupport.minSdkVersion
+        targetSdkVersion rootProject.ext.androidSupport.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    testImplementation rootProject.ext.testDependenciesSupport['junit']
+    androidTestImplementation rootProject.ext.testDependenciesSupport['supportTestRunnerJunit']
+    androidTestImplementation rootProject.ext.testDependenciesSupport['supportTestEspressoCore']
+
+    implementation rootProject.ext.dependenciesSupport['supportAppcompat']
+
+    debugApi project(":selector-core-impl-support")
+    releaseApi project(":selector-core-impl-support")
+//    releaseApi rootProject.ext.dependenciesSupport['vSelectorCoreImpl']
+    debugApi project(":selector-ui-impl-support")
+    releaseApi project(":selector-ui-impl-support")
+//    releaseApi rootProject.ext.dependenciesSupport['vSelectorUIImpl']
+}
+
+apply from:'https://raw.githubusercontent.com/CodePoem/UploadRepository/master/bintray/uploadBintray.gradle'

@@ -30,9 +30,13 @@ dependencies {
     implementation rootProject.ext.dependencies['androidxRecyclerView']
 
     debugApi project(":selector-ui")
+    releaseApi project(":selector-ui")
 //    releaseApi rootProject.ext.dependencies['vSelectorUI']
     debugImplementation project(":selector-core-impl")
+    releaseImplementation project(":selector-core-impl")
 //    releaseImplementation rootProject.ext.dependencies['vSelectorCoreImpl']
 
     implementation('com.github.chrisbanes:PhotoView:2.0.0')
 }
+
+apply from:'https://raw.githubusercontent.com/CodePoem/UploadRepository/master/bintray/uploadBintray.gradle'

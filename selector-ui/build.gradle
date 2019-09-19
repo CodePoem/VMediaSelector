@@ -29,5 +29,8 @@ dependencies {
     implementation rootProject.ext.dependencies['androidxAppcompat']
 
     debugImplementation project(":selector-core")
+    releaseImplementation project(":selector-core")
 //    releaseImplementation rootProject.ext.dependencies['vSelectorCore']
 }
+
+apply from:'https://raw.githubusercontent.com/CodePoem/UploadRepository/master/bintray/uploadBintray.gradle'

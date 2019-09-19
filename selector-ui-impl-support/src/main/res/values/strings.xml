@@ -1,0 +1,32 @@
+<resources>
+    <string name="v_selector_ui_impl_app_name">vmediaselector</string>
+    <string name="v_selector_ui_impl_ok">确定</string>
+    <string name="v_selector_ui_impl_fab_label_camera">拍照</string>
+
+    <string name="v_selector_ui_impl_image_preview_title_fmt">%1$s/%2$s</string>
+    <string name="v_selector_ui_impl_image_preview_ok_fmt">%1$s/%2$s 确定</string>
+    <string name="v_selector_ui_impl_image_select_ok_fmt">(%1$s/%2$s) 确定</string>
+    <string name="v_selector_ui_impl_album_images_fmt">(%d)</string>
+
+    <string name="v_selector_ui_impl_max_image_over_fmt">你最多只能选择%d张图片</string>
+    <string name="v_selector_ui_impl_gif_too_big">您选择的gif图片过大，请压缩后再上传</string>
+    <string name="v_selector_ui_impl_pick_single_video">视频单选</string>
+    <string name="v_selector_ui_impl_pick_multi_image">图片多选</string>
+    <string name="v_selector_ui_impl_pick_single_image">图片单选</string>
+    <string name="v_selector_ui_impl_video_title">视频相册</string>
+    <string name="v_selector_ui_impl_finish">完成</string>
+    <string name="v_selector_ui_impl_start_pick">开始选图</string>
+    <string name="v_selector_ui_impl_load_image_fail">非常抱歉，加载出错啦</string>
+    <string name="v_selector_ui_impl_storage_permission_deny">需要访问你的存储设备来选择图片，请在“系统设置”或授权对话框中允许“存储空间”权限。</string>
+    <string name="v_selector_ui_impl_camera_permission_deny">需要访问你的相机来拍照，请在“系统设置”或授权对话框中允许“使用相机”权限。</string>
+    <string name="v_selector_ui_impl_storage_deny">设备存储读取出错或暂不可用，请稍候重试</string>
+    <string name="v_selector_ui_impl_camera_unavailble">相机不可用,请检查相机权限！</string>
+    <string name="v_selector_ui_impl_handling">处理中</string>
+    <string name="v_selector_ui_impl_default_album">默认相册</string>
+    <string name="v_selector_ui_impl_nothing_found">什么也找不到</string>
+    <string name="v_selector_ui_impl_too_many_picture_fmt">您最多只能选择%d张图片</string>
+    <string name="v_selector_ui_impl_default_album_name">所有相片</string>
+    <string name="v_selector_ui_impl_preview">预览</string>
+
+
+</resources>

@@ -27,6 +27,8 @@ dependencies {
     androidTestImplementation rootProject.ext.testDependencies['androidxTestEspressoCore']
 
     implementation rootProject.ext.dependencies['androidxAppcompat']
-    implementation 'com.vdreamers.vonresult:v-onresult:1.0.1'
+    implementation rootProject.ext.dependencies['vOnResult']
 
 }
+
+apply from:'https://raw.githubusercontent.com/CodePoem/UploadRepository/master/bintray/uploadBintray.gradle'

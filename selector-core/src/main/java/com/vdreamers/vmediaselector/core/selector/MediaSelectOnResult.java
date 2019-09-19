@@ -122,7 +122,7 @@ public class MediaSelectOnResult {
         }
 
         @Override
-        public void onActivityResult(int resultCode, Intent data) {
+        public void onActivityResult(int requestCode, int resultCode, Intent data) {
             if (resultCode == RESULT_OK) {
                 List<MediaEntity> mediaEntities = mMediaSelector.getResult(data);
                 if (mediaEntities == null) {

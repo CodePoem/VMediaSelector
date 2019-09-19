@@ -1,0 +1,42 @@
+apply plugin: 'com.android.library'
+
+
+android {
+    resourcePrefix 'v_selector_ui_impl'
+    compileSdkVersion rootProject.ext.androidSupport.compileSdkVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.androidSupport.minSdkVersion
+        targetSdkVersion rootProject.ext.androidSupport.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    testImplementation rootProject.ext.testDependenciesSupport['junit']
+    androidTestImplementation rootProject.ext.testDependenciesSupport['supportTestRunnerJunit']
+    androidTestImplementation rootProject.ext.testDependenciesSupport['supportTestEspressoCore']
+
+    implementation rootProject.ext.dependenciesSupport['supportAppcompat']
+    implementation rootProject.ext.dependenciesSupport['supportRecyclerView']
+
+    debugApi project(":selector-ui-support")
+    releaseApi project(":selector-ui-support")
+//    releaseApi rootProject.ext.dependenciesSupport['vSelectorUI']
+    debugImplementation project(":selector-core-impl-support")
+    releaseImplementation project(":selector-core-impl-support")
+//    releaseImplementation rootProject.ext.dependenciesSupport['vSelectorCoreImpl']
+
+    implementation('com.github.chrisbanes:PhotoView:2.0.0')
+}
+
+apply from:'https://raw.githubusercontent.com/CodePoem/UploadRepository/master/bintray/uploadBintray.gradle'

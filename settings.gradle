@@ -1,1 +1,6 @@
-include ':sample', ':selector-core', ':v-media-selector', ':selector-ui', ':selector-core-impl', ':selector-ui-impl'
+if (IsSupport == "true") {
+    include ':sample-support', ':selector-core-support', ':v-media-selector-support', ':selector-ui-support', ':selector-core-impl-support', ':selector-ui-impl-support'
+} else {
+    include ':sample', ':selector-core', ':v-media-selector', ':selector-ui', ':selector-core-impl', ':selector-ui-impl'
+}
+
