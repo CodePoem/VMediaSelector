@@ -95,7 +95,7 @@ public class MediaSelectorUtils {
         MediaSelector.of(fragment)
                 .withSelector(mMediaSelector)
                 .withOptions(selectorOptions)
-                .start(mRequestCodeSelector, mediaSelectCallback);
+                .start(mRequestCodeSelector, selectedMedias, mediaSelectCallback);
     }
 
     /**
@@ -111,7 +111,7 @@ public class MediaSelectorUtils {
         MediaSelector.of(activity)
                 .withSelector(mMediaSelector)
                 .withOptions(selectorOptions)
-                .start(mRequestCodeSelector, mediaSelectCallback);
+                .start(mRequestCodeSelector, selectedMedias, mediaSelectCallback);
     }
 
     /**
@@ -149,7 +149,7 @@ public class MediaSelectorUtils {
         MediaSelector.of(fragment)
                 .withSelector(mMediaSelector)
                 .withOptions(selectorOptions)
-                .start(mRequestCodeSelector, mediaSelectUriCallback);
+                .start(mRequestCodeSelector, selectedMedias, mediaSelectUriCallback);
     }
 
     /**
@@ -165,7 +165,7 @@ public class MediaSelectorUtils {
         MediaSelector.of(activity)
                 .withSelector(mMediaSelector)
                 .withOptions(selectorOptions)
-                .start(mRequestCodeSelector, mediaSelectUriCallback);
+                .start(mRequestCodeSelector, selectedMedias, mediaSelectUriCallback);
     }
 
     @NonNull
