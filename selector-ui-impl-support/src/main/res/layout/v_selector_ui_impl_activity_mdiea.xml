@@ -5,7 +5,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
+    <android.support.v7.widget.Toolbar
         android:id="@+id/nav_top_bar"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
@@ -23,7 +23,7 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:text="@string/v_selector_ui_impl_default_album"/>
-    </androidx.appcompat.widget.Toolbar>
+    </android.support.v7.widget.Toolbar>
 
     <FrameLayout
         android:id="@+id/content_layout"

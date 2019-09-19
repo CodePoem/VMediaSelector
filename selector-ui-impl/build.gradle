@@ -39,4 +39,4 @@ dependencies {
     implementation('com.github.chrisbanes:PhotoView:2.0.0')
 }
 
-apply from:'https://raw.githubusercontent.com/CodePoem/UploadRepository/master/bintray/uploadBintray.gradle'
+apply from: "$rootProject.projectDir/uploadBintray.gradle"

@@ -33,4 +33,4 @@ dependencies {
 //    releaseImplementation rootProject.ext.dependenciesSupport['vSelectorCore']
 }
 
-apply from:'https://raw.githubusercontent.com/CodePoem/UploadRepository/master/bintray/uploadBintray.gradle'
+apply from: "$rootProject.projectDir/uploadBintray.gradle"
