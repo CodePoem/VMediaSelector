@@ -27,7 +27,7 @@ dependencies {
 
     implementation rootProject.ext.dependencies['androidxAppcompat']
 
-    api project(":selector-ui-impl")
+    implementation project(":selector-ui-impl")
 }
 
 apply from: "$rootProject.projectDir/uploadBintray.gradle"

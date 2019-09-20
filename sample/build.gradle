@@ -69,8 +69,7 @@ dependencies {
     implementation rootProject.ext.dependencies['androidxConstraintLayout']
     implementation rootProject.ext.dependencies['androidxRecyclerView']
 
-    debugImplementation project(':v-media-selector')
-    releaseImplementation rootProject.ext.dependencies['VMediaSelector']
+    api project(':v-media-selector')
 
     implementation rootProject.ext.dependencies['glide']
 }
