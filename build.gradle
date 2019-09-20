@@ -5,6 +5,8 @@ if (IsSupport == "true") {
     apply from: "$rootProject.projectDir/dependencies.gradle"
 }
 
+apply from: "$rootProject.projectDir/aarDepTest.gradle"
+
 buildscript {
     repositories {
         google()

@@ -29,24 +29,12 @@ public class DefaultGlideLoader implements IMediaLoader {
     @Override
     public void displayThumbnail(@NonNull ImageView img, @NonNull MediaEntity media, int width,
                                  int height) {
-        if (media instanceof ImageMediaEntity) {
-//            RequestOptions requestOptions = new RequestOptions();
-//            requestOptions.placeholder(R.drawable.v_selector_ui_impl_ic_broken_image)
-//                    .error(R.drawable.v_selector_ui_impl_ic_broken_image)
-//                    .centerCrop();
-//
-//            Glide.with(img)
-//                    .load(media.getUri())
-//                    .transition(new DrawableTransitionOptions().crossFade())
-//                    .apply(requestOptions)
-//                    .into(img);
-            Glide.with(img)
-                    .load(media.getUri())
-                    .placeholder(com.vdreamers.vmediaselector.R.drawable.v_selector_ui_impl_ic_broken_image)
-                    .override(width, height)
-                    .centerCrop()
-                    .into(img);
-        }
+        Glide.with(img)
+                .load(media.getUri())
+                .placeholder(com.vdreamers.vmediaselector.R.drawable.v_selector_ui_impl_ic_broken_image)
+                .override(width, height)
+                .centerCrop()
+                .into(img);
     }
 
     @Override

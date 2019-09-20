@@ -28,9 +28,7 @@ dependencies {
 
     implementation rootProject.ext.dependenciesSupport['supportAppcompat']
 
-    debugImplementation project(":selector-core-support")
-    releaseImplementation project(":selector-core-support")
-//    releaseImplementation rootProject.ext.dependenciesSupport['vSelectorCore']
+    implementation project(":selector-core-support")
 }
 
 apply from: "$rootProject.projectDir/uploadBintray.gradle"

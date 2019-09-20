@@ -28,9 +28,7 @@ dependencies {
 
     implementation rootProject.ext.dependencies['androidxAppcompat']
 
-    debugApi project(":selector-core")
-    releaseApi project(":selector-core")
-//    releaseApi rootProject.ext.dependencies['vSelectorCore']
+    api project(":selector-core")
 }
 
 apply from: "$rootProject.projectDir/uploadBintray.gradle"

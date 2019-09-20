@@ -69,11 +69,6 @@ dependencies {
     implementation rootProject.ext.dependenciesSupport['supportConstraintLayout']
     implementation rootProject.ext.dependenciesSupport['supportRecyclerView']
 
-//    implementation 'com.bilibili:boxing:1.0.4'
-//    implementation 'com.bilibili:boxing-impl:1.0.4'
-//    implementation 'com.github.bumptech.glide:glide:3.7.0'
-
-//    implementation 'com.zhihu.android:matisse:0.5.1'
     implementation project(':v-media-selector-support')
 
     implementation rootProject.ext.dependenciesSupport['glide']

@@ -29,12 +29,8 @@ dependencies {
     implementation rootProject.ext.dependenciesSupport['supportAppcompat']
     implementation rootProject.ext.dependenciesSupport['supportRecyclerView']
 
-    debugApi project(":selector-ui-support")
-    releaseApi project(":selector-ui-support")
-//    releaseApi rootProject.ext.dependenciesSupport['vSelectorUI']
-    debugImplementation project(":selector-core-impl-support")
-    releaseImplementation project(":selector-core-impl-support")
-//    releaseImplementation rootProject.ext.dependenciesSupport['vSelectorCoreImpl']
+    api project(":selector-ui-support")
+    api project(":selector-core-impl-support")
 
     implementation('com.github.chrisbanes:PhotoView:2.0.0')
 }

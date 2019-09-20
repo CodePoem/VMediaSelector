@@ -8,10 +8,9 @@ def androidxRecyclerViewVer = "1.0.0"
 def androidxConstraintLayoutVer = "1.1.3"
 
 def vOnResultVer = "1.0.2"
-def vSelectorCore = "1.0.0"
-def vSelectorUI = "1.0.0"
+def VMediaSelectorVer = "1.0.4"
 
-def glide = "4.9.0"
+def glideVer = "4.9.0"
 
 ext {
     android = [
@@ -33,8 +32,11 @@ ext {
             "androidxRecyclerView"    : "androidx.recyclerview:recyclerview:${androidxRecyclerViewVer}",
             "androidxConstraintLayout": "androidx.constraintlayout:constraintlayout:${androidxConstraintLayoutVer}",
             "vOnResult"               : "com.vdreamers.vonresult:v-onresult:${vOnResultVer}",
-            "vSelectorCore"           : "com.vdreamers.vmediaselector:selector-core:${vSelectorCore}",
-            "vSelectorUI"             : "com.vdreamers.vmediaselector:selector-core:${vSelectorUI}",
-            "glide"                   : "com.github.bumptech.glide:glide:${glide}",
+            "VMediaSelector"          : "com.vdreamers.vmediaselector:v-media-selector:${VMediaSelectorVer}",
+            "VMediaSelectorCore"      : "com.vdreamers.vmediaselector:selector-core:${VMediaSelectorVer}",
+            "VMediaSelectorCoreImpl"  : "com.vdreamers.vmediaselector:selector-core-impl:${VMediaSelectorVer}",
+            "VMediaSelectorUI"        : "com.vdreamers.vmediaselector:selector-ui:${VMediaSelectorVer}",
+            "VMediaSelectorUIImpl"    : "com.vdreamers.vmediaselector:selector-ui-impl:${VMediaSelectorVer}",
+            "glide"                   : "com.github.bumptech.glide:glide:${glideVer}",
     ]
 }

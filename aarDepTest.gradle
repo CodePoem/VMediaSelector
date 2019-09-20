@@ -1,0 +1,17 @@
+task aarDepTest(type: Exec) {
+    commandLine './gradlew', ':selector-core:assembleRelease'
+    commandLine './gradlew', ':selector-core-impl:assembleRelease'
+    commandLine './gradlew', ':selector-ui:assembleRelease'
+    commandLine './gradlew', ':selector-ui-impl:assembleRelease'
+    commandLine './gradlew', ':v-media-selector:assembleRelease'
+    commandLine './gradlew', ':sample:assembleRelease'
+}
+
+task aarDepTestSupport(type: Exec) {
+    commandLine './gradlew', ':selector-core-support:assembleRelease'
+    commandLine './gradlew', ':selector-core-impl-support:assembleRelease'
+    commandLine './gradlew', ':selector-ui-support:assembleRelease'
+    commandLine './gradlew', ':selector-ui-impl-support:assembleRelease'
+    commandLine './gradlew', ':v-media-selector-support:assembleRelease'
+    commandLine './gradlew', ':sample-support:assembleRelease'
+}

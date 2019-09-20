@@ -6,12 +6,10 @@ def supportTestEspressoCoreVer = "2.2.2"
 def supportVer = "27.1.1"
 def supportConstraintLayoutVer = "1.1.3"
 
-def vOnResultVerSupport = "1.0.2"
+def vOnResultVerSupportVer = "1.0.2"
+def VMediaSelectorSupportVer = "1.0.4"
 
-def vSelectorCoreSupport = "1.0.0"
-def vSelectorUISupport = "1.0.0"
-
-def glide = "4.9.0"
+def glideVer = "4.9.0"
 
 ext {
     androidSupport = [
@@ -29,12 +27,15 @@ ext {
     ]
 
     dependenciesSupport = [
-            "supportAppcompat"       : "com.android.support:appcompat-v7:${supportVer}",
-            "supportRecyclerView"    : "com.android.support:recyclerview-v7:${supportVer}",
-            "supportConstraintLayout": "com.android.support.constraint:constraint-layout:${supportConstraintLayoutVer}",
-            "vOnResultSupport"        : "com.vdreamers.vonresult.support:v-onresult-support:${vOnResultVerSupport}",
-            "vSelectorCoreSupport"    : "com.vdreamers.vmediaselector:selector-core:${vSelectorCoreSupport}",
-            "vSelectorUISupport"      : "com.vdreamers.vmediaselector:selector-core:${vSelectorUISupport}",
-            "glide"                   : "com.github.bumptech.glide:glide:${glide}",
+            "supportAppcompat"             : "com.android.support:appcompat-v7:${supportVer}",
+            "supportRecyclerView"          : "com.android.support:recyclerview-v7:${supportVer}",
+            "supportConstraintLayout"      : "com.android.support.constraint:constraint-layout:${supportConstraintLayoutVer}",
+            "vOnResultSupport"             : "com.vdreamers.vonresult.support:v-onresult-support:${vOnResultVerSupportVer}",
+            "VMediaSelectorSupport"        : "com.vdreamers.vmediaselector:v-media-selector-support:${VMediaSelectorSupportVer}",
+            "VMediaSelectorCoreSupport"    : "com.vdreamers.vmediaselector:selector-core-support:${VMediaSelectorSupportVer}",
+            "VMediaSelectorCoreImplSupport": "com.vdreamers.vmediaselector:selector-core-impl-support:${VMediaSelectorSupportVer}",
+            "VMediaSelectorUISupport"      : "com.vdreamers.vmediaselector:selector-ui-support:${VMediaSelectorSupportVer}",
+            "VMediaSelectorUIImplSupport"  : "com.vdreamers.vmediaselector:selector-ui-impl-support:${VMediaSelectorSupportVer}",
+            "glide"                        : "com.github.bumptech.glide:glide:${glideVer}",
     ]
 }
