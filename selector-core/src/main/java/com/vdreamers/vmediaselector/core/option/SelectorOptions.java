@@ -59,9 +59,9 @@ public class SelectorOptions implements Parcelable {
      */
     private String mSubDir;
     /**
-     * 默认多选
+     * 默认单选
      */
-    public static final boolean DEFAULT_MULTI_SELECTABLE = true;
+    public static final boolean DEFAULT_MULTI_SELECTABLE = false;
     /**
      * 默认最大选择数量9
      */
