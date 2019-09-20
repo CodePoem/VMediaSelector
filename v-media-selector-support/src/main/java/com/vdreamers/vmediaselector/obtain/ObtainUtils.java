@@ -21,23 +21,23 @@ import java.util.concurrent.FutureTask;
  *
  * @author <a href="mailto:codepoetdream@gmail.com">Mr.D</a>
  */
-public class ImageObtainUtils {
+public class ObtainUtils {
 
-    private static final String TAG = ImageObtainUtils.class.getSimpleName();
+    private static final String TAG = ObtainUtils.class.getSimpleName();
 
     /**
      * 获取回调
      */
     private ObtainListener mObtainListener;
 
-    private ImageObtainUtils() {
+    private ObtainUtils() {
     }
 
-    public static ImageObtainUtils of() {
-        return new ImageObtainUtils();
+    public static ObtainUtils of() {
+        return new ObtainUtils();
     }
 
-    public ImageObtainUtils setCallback(ObtainListener obtainListener) {
+    public ObtainUtils setCallback(ObtainListener obtainListener) {
         mObtainListener = obtainListener;
         return this;
     }
@@ -58,13 +58,13 @@ public class ImageObtainUtils {
                     }
                 });
 
-                final List<String> obtainFilePathList = new ArrayList<>();
+                final List<File> obtainFiles = new ArrayList<>();
                 if (context == null || fileUriList == null) {
                     LoadExecutorUtils.getInstance().runUI(new Runnable() {
                         @Override
                         public void run() {
                             if (mObtainListener != null) {
-                                mObtainListener.onSuccess(obtainFilePathList);
+                                mObtainListener.onSuccess(obtainFiles);
                             }
                         }
                     });
@@ -80,7 +80,7 @@ public class ImageObtainUtils {
                         if (file == null) {
                             continue;
                         }
-                        obtainFilePathList.add(file.getAbsolutePath());
+                        obtainFiles.add(file);
                     }
                 } catch (OutOfMemoryError | NullPointerException | IllegalArgumentException e) {
                     LoadExecutorUtils.getInstance().runUI(new Runnable() {
@@ -99,7 +99,7 @@ public class ImageObtainUtils {
                     @Override
                     public void run() {
                         if (mObtainListener != null) {
-                            mObtainListener.onSuccess(obtainFilePathList);
+                            mObtainListener.onSuccess(obtainFiles);
                         }
                     }
                 });
