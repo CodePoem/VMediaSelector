@@ -5,6 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.vdreamers.vmediaselector.core.scope.MediaType;
+import com.vdreamers.vmediaselector.core.scope.MediaTypeConstants;
 
 import java.util.Locale;
 
@@ -38,6 +39,11 @@ public class VideoMediaEntity extends MediaEntity implements Parcelable {
      * 单位MB byte数
      */
     private static final long MB = 1024 * 1024;
+
+
+    {
+        this.mType = MediaTypeConstants.MEDIA_TYPE_VIDEO;
+    }
 
     public VideoMediaEntity() {
     }
@@ -84,7 +90,7 @@ public class VideoMediaEntity extends MediaEntity implements Parcelable {
 
     @Override
     public VideoMediaEntity setType(@MediaType int type) {
-        this.type = type;
+        this.mType = type;
         return this;
     }
 

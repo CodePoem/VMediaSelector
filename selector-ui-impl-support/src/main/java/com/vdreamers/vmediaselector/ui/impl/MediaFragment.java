@@ -25,6 +25,7 @@ import com.vdreamers.vmediaselector.core.callback.MediaSelectCallback;
 import com.vdreamers.vmediaselector.core.entity.AlbumEntity;
 import com.vdreamers.vmediaselector.core.entity.ImageMediaEntity;
 import com.vdreamers.vmediaselector.core.entity.MediaEntity;
+import com.vdreamers.vmediaselector.core.entity.VideoMediaEntity;
 import com.vdreamers.vmediaselector.core.option.SelectorOptions;
 import com.vdreamers.vmediaselector.core.option.SelectorViewModeConstants;
 import com.vdreamers.vmediaselector.core.scope.MediaTypeConstants;
@@ -51,8 +52,8 @@ import java.util.List;
  *
  * @author <a href="mailto:codepoetdream@gmail.com">Mr.D</a>
  */
-public class MediaViewFragment extends BaseMediaViewFragment implements View.OnClickListener {
-    public static final String TAG = MediaViewFragment.class.getSimpleName();
+public class MediaFragment extends BaseMediaViewFragment implements View.OnClickListener {
+    public static final String TAG = MediaFragment.class.getSimpleName();
     private static final int IMAGE_PREVIEW_REQUEST_CODE = 9086;
     /**
      * 表格布局列数
@@ -109,8 +110,8 @@ public class MediaViewFragment extends BaseMediaViewFragment implements View.OnC
 
     private int mMaxCount;
 
-    public static MediaViewFragment newInstance() {
-        return new MediaViewFragment();
+    public static MediaFragment newInstance() {
+        return new MediaFragment();
     }
 
     @Override
@@ -300,12 +301,12 @@ public class MediaViewFragment extends BaseMediaViewFragment implements View.OnC
                 mIsPreview = true;
                 final ArrayList<MediaEntity> medias =
                         (ArrayList<MediaEntity>) mMediaAdapter.getSelectedMedias();
-                Intent intent = new Intent(getActivity(), MediaViewActivity.class);
+                Intent intent = new Intent(getActivity(), MediaPreViewActivity.class);
                 MediaSelector.of(getActivity())
                         .withOptions(SelectorOptions.getInstance()
                                 .setViewMode(SelectorViewModeConstants.VIEW_MODE_PREVIEW_EDIT))
                         .withIntent(intent)
-                        .start(MediaViewFragment.IMAGE_PREVIEW_REQUEST_CODE, medias,
+                        .start(MediaFragment.IMAGE_PREVIEW_REQUEST_CODE, medias,
                                 new MediaSelectCallback() {
 
                                     @Override
@@ -317,7 +318,7 @@ public class MediaViewFragment extends BaseMediaViewFragment implements View.OnC
                                         if (resultCode == Activity.RESULT_OK) {
                                             mIsPreview = false;
                                             boolean isBackClick =
-                                                    data.getBooleanExtra(MediaViewActivity.EXTRA_TYPE_BACK, false);
+                                                    data.getBooleanExtra(MediaPreViewActivity.EXTRA_TYPE_BACK, false);
                                             List<MediaEntity> selectedMedias =
                                                     data.getParcelableArrayListExtra(MediaSelector.EXTRA_SELECTED_MEDIA);
                                             onViewActivityRequest(selectedMedias,
@@ -334,8 +335,6 @@ public class MediaViewFragment extends BaseMediaViewFragment implements View.OnC
                                         MediaSelectorLogUtils.d(mediaSelectError.getLocalizedMessage());
                                     }
                                 });
-
-
             }
         }
 
@@ -344,8 +343,6 @@ public class MediaViewFragment extends BaseMediaViewFragment implements View.OnC
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-
     }
 
     private void onViewActivityRequest(List<MediaEntity> selectedMedias,
@@ -475,11 +472,62 @@ public class MediaViewFragment extends BaseMediaViewFragment implements View.OnC
                     singleImageClick(media);
                 }
             } else if (mode == MediaTypeConstants.MEDIA_TYPE_VIDEO) {
-                videoClick(media);
+                if (SelectorOptions.getInstance().isMultiSelectable()) {
+                    multiVideoClick(pos);
+                } else {
+                    singleVideoClick(media);
+                }
             }
         }
 
-        private void videoClick(MediaEntity media) {
+        private void multiVideoClick(int pos) {
+            if (!mIsPreview) {
+                AlbumEntity albumMedia = mAlbumWindowAdapter.getCurrentAlbum();
+                String albumId = albumMedia != null ? albumMedia.mBucketId :
+                        AlbumEntity.DEFAULT_NAME;
+                mIsPreview = true;
+
+                ArrayList<MediaEntity> medias =
+                        (ArrayList<MediaEntity>) mMediaAdapter.getSelectedMedias();
+
+                Intent intent = new Intent(getContext(), MediaPreViewActivity.class);
+                MediaSelector.of(getActivity())
+                        .withOptions(SelectorOptions.getInstance()
+                                .setViewMode(SelectorViewModeConstants.VIEW_MODE_EDIT))
+                        .withIntent(intent)
+                        .start(MediaFragment.IMAGE_PREVIEW_REQUEST_CODE, medias, pos, albumId
+                                , new MediaSelectCallback() {
+
+                                    @Override
+                                    public void onMediaSelectSuccess(int resultCode, Intent data,
+                                                                     List<MediaEntity> medias) {
+                                        if (data == null) {
+                                            return;
+                                        }
+                                        if (resultCode == Activity.RESULT_OK) {
+                                            mIsPreview = false;
+                                            boolean isBackClick =
+                                                    data.getBooleanExtra(MediaPreViewActivity.EXTRA_TYPE_BACK, false);
+                                            List<MediaEntity> selectedMedias =
+                                                    data.getParcelableArrayListExtra(MediaSelector.EXTRA_SELECTED_MEDIA);
+                                            onViewActivityRequest(selectedMedias,
+                                                    mMediaAdapter.getAllMedias(), isBackClick);
+                                            if (isBackClick) {
+                                                mMediaAdapter.setSelectedMedias(selectedMedias);
+                                            }
+                                            updateMultiPickerLayoutState(selectedMedias);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onMediaSelectError(Throwable mediaSelectError) {
+                                        MediaSelectorLogUtils.d(mediaSelectError.getLocalizedMessage());
+                                    }
+                                });
+            }
+        }
+
+        private void singleVideoClick(MediaEntity media) {
             ArrayList<MediaEntity> iMedias = new ArrayList<>();
             iMedias.add(media);
             onFinish(iMedias);
@@ -495,12 +543,12 @@ public class MediaViewFragment extends BaseMediaViewFragment implements View.OnC
                 ArrayList<MediaEntity> medias =
                         (ArrayList<MediaEntity>) mMediaAdapter.getSelectedMedias();
 
-                Intent intent = new Intent(getContext(), MediaViewActivity.class);
+                Intent intent = new Intent(getContext(), MediaPreViewActivity.class);
                 MediaSelector.of(getActivity())
                         .withOptions(SelectorOptions.getInstance()
                                 .setViewMode(SelectorViewModeConstants.VIEW_MODE_EDIT))
                         .withIntent(intent)
-                        .start(MediaViewFragment.IMAGE_PREVIEW_REQUEST_CODE, medias, pos, albumId
+                        .start(MediaFragment.IMAGE_PREVIEW_REQUEST_CODE, medias, pos, albumId
                                 , new MediaSelectCallback() {
 
                                     @Override
@@ -512,7 +560,7 @@ public class MediaViewFragment extends BaseMediaViewFragment implements View.OnC
                                         if (resultCode == Activity.RESULT_OK) {
                                             mIsPreview = false;
                                             boolean isBackClick =
-                                                    data.getBooleanExtra(MediaViewActivity.EXTRA_TYPE_BACK, false);
+                                                    data.getBooleanExtra(MediaPreViewActivity.EXTRA_TYPE_BACK, false);
                                             List<MediaEntity> selectedMedias =
                                                     data.getParcelableArrayListExtra(MediaSelector.EXTRA_SELECTED_MEDIA);
                                             onViewActivityRequest(selectedMedias,
@@ -546,7 +594,7 @@ public class MediaViewFragment extends BaseMediaViewFragment implements View.OnC
         public void onClick(View v) {
             if (!mIsCamera) {
                 mIsCamera = true;
-                startCamera(getActivity(), MediaViewFragment.this, MediaFileHelper.getSubDir());
+                startCamera(getActivity(), MediaFragment.this, MediaFileHelper.getSubDir());
             }
         }
     }
@@ -554,35 +602,45 @@ public class MediaViewFragment extends BaseMediaViewFragment implements View.OnC
     private class OnMediaCheckedListener implements MediaAdapter.OnMediaCheckedListener {
 
         @Override
-        public void onChecked(View view, MediaEntity iMedia) {
-            if (!(iMedia instanceof ImageMediaEntity)) {
-                return;
-            }
-            ImageMediaEntity photoMedia = (ImageMediaEntity) iMedia;
-            boolean isSelected = !photoMedia.isSelected();
+        public void onChecked(View view, MediaEntity media) {
+            boolean isSelected = !media.isSelected();
             MediaItemLayout layout = (MediaItemLayout) view;
             List<MediaEntity> selectedMedias = mMediaAdapter.getSelectedMedias();
             if (isSelected) {
-                if (selectedMedias.size() >= mMaxCount) {
-                    String warning = getString(R.string.v_selector_ui_impl_too_many_picture_fmt,
-                            mMaxCount);
-                    Toast.makeText(getActivity(), warning, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (!selectedMedias.contains(photoMedia)) {
-                    if (photoMedia.isGifOverSize()) {
-                        Toast.makeText(getActivity(), R.string.v_selector_ui_impl_gif_too_big,
-                                Toast.LENGTH_SHORT).show();
+                if (media instanceof ImageMediaEntity) {
+                    ImageMediaEntity photoMedia = (ImageMediaEntity) media;
+                    if (selectedMedias.size() >= mMaxCount) {
+                        String warning = getString(R.string.v_selector_ui_impl_too_many_picture_fmt,
+                                mMaxCount);
+                        Toast.makeText(getActivity(), warning, Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    selectedMedias.add(photoMedia);
+                    if (!selectedMedias.contains(photoMedia)) {
+                        if (photoMedia.isGifOverSize()) {
+                            Toast.makeText(getActivity(), R.string.v_selector_ui_impl_gif_too_big,
+                                    Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        selectedMedias.add(photoMedia);
+                    }
+                } else if (media instanceof VideoMediaEntity){
+                    VideoMediaEntity videoMedia = (VideoMediaEntity) media;
+                    if (selectedMedias.size() >= mMaxCount) {
+                        String warning = getString(R.string.v_selector_ui_impl_too_many_picture_fmt,
+                                mMaxCount);
+                        Toast.makeText(getActivity(), warning, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (!selectedMedias.contains(videoMedia)) {
+                        selectedMedias.add(videoMedia);
+                    }
                 }
             } else {
-                if (selectedMedias.size() >= 1 && selectedMedias.contains(photoMedia)) {
-                    selectedMedias.remove(photoMedia);
+                if (selectedMedias.size() >= 1 && selectedMedias.contains(media)) {
+                    selectedMedias.remove(media);
                 }
             }
-            photoMedia.setSelected(isSelected);
+            media.setSelected(isSelected);
             layout.setChecked(isSelected);
             updateMultiPickerLayoutState(selectedMedias);
         }

@@ -12,12 +12,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.vdreamers.vmediaselector.core.contract.SelectorContract;
 import com.vdreamers.vmediaselector.core.entity.ImageMediaEntity;
 import com.vdreamers.vmediaselector.core.entity.MediaEntity;
+import com.vdreamers.vmediaselector.core.entity.VideoMediaEntity;
 import com.vdreamers.vmediaselector.core.impl.presenter.SelectorPresenter;
 import com.vdreamers.vmediaselector.core.option.SelectorOptions;
 import com.vdreamers.vmediaselector.core.selector.MediaSelector;
@@ -30,23 +30,19 @@ import java.util.List;
 
 /**
  * 默认UI 展示原图Activity
- * An Activity to show raw image by holding {@link MediaViewFragment}.
+ * An Activity to show raw image by holding {@link MediaFragment}.
  * <p>
  * date 2019-09-18 22:29:48
  *
  * @author <a href="mailto:codepoetdream@gmail.com">Mr.D</a>
  */
-public class MediaViewActivity extends BaseMediaViewActivity {
+public class MediaPreViewActivity extends BaseMediaViewActivity {
     public static final String EXTRA_TYPE_BACK = "extra_type_back";
 
     /**
      * 预览ViewPage
      */
     HackyViewPager mGallery;
-    /**
-     * 加载进度条
-     */
-    ProgressBar mProgressBar;
     /**
      * 是否需要编辑
      */
@@ -86,11 +82,11 @@ public class MediaViewActivity extends BaseMediaViewActivity {
 
     private String mAlbumId;
     private Toolbar mToolbar;
-    private ImagesAdapter mAdapter;
-    private ImageMediaEntity mCurrentImageItem;
+    private MediasAdapter mAdapter;
+    private MediaEntity mCurrentImageItem;
     private Button mOkBtn;
-    private ArrayList<MediaEntity> mImages;
-    private ArrayList<MediaEntity> mSelectedImages;
+    private ArrayList<MediaEntity> mMedias;
+    private ArrayList<MediaEntity> mSelectedMedias;
     private MenuItem mSelectedMenuItem;
 
     @Override
@@ -122,23 +118,22 @@ public class MediaViewActivity extends BaseMediaViewActivity {
     }
 
     private void initData() {
-        mSelectedImages = getSelectedImages();
+        mSelectedMedias = getSelectedMedias();
         mAlbumId = getAlbumId();
         mStartPos = getStartPos();
         mNeedLoading = SelectorOptions.getInstance().isNeedLoading();
         mNeedEdit = SelectorOptions.getInstance().isNeedEdit();
         mMaxCount = getMaxCount();
-        mImages = new ArrayList<>();
-        if (!mNeedLoading && mSelectedImages != null) {
-            mImages.addAll(mSelectedImages);
+        mMedias = new ArrayList<>();
+        if (!mNeedLoading && mSelectedMedias != null) {
+            mMedias.addAll(mSelectedMedias);
         }
     }
 
     private void initView() {
-        mAdapter = new ImagesAdapter(getSupportFragmentManager());
+        mAdapter = new MediasAdapter(getSupportFragmentManager());
         mOkBtn = (Button) findViewById(R.id.image_items_ok);
         mGallery = (HackyViewPager) findViewById(R.id.pager);
-        mProgressBar = (ProgressBar) findViewById(R.id.loading);
         mGallery.setAdapter(mAdapter);
         mGallery.addOnPageChangeListener(new OnPagerChangeListener());
         if (!mNeedEdit) {
@@ -157,8 +152,8 @@ public class MediaViewActivity extends BaseMediaViewActivity {
 
     private void setOkTextNumber() {
         if (mNeedEdit) {
-            int selectedSize = mSelectedImages.size();
-            int size = Math.max(mSelectedImages.size(), mMaxCount);
+            int selectedSize = mSelectedMedias.size();
+            int size = Math.max(mSelectedMedias.size(), mMaxCount);
             mOkBtn.setText(getString(R.string.v_selector_ui_impl_image_preview_ok_fmt,
                     String.valueOf(selectedSize)
                     , String.valueOf(size)));
@@ -168,7 +163,7 @@ public class MediaViewActivity extends BaseMediaViewActivity {
 
     private void finishByBackPressed(boolean value) {
         Intent intent = new Intent();
-        intent.putParcelableArrayListExtra(MediaSelector.EXTRA_SELECTED_MEDIA, mSelectedImages);
+        intent.putParcelableArrayListExtra(MediaSelector.EXTRA_SELECTED_MEDIA, mSelectedMedias);
         intent.putExtra(EXTRA_TYPE_BACK, value);
         setResult(RESULT_OK, intent);
         finish();
@@ -197,23 +192,42 @@ public class MediaViewActivity extends BaseMediaViewActivity {
             if (mCurrentImageItem == null) {
                 return false;
             }
-            if (mSelectedImages.size() >= mMaxCount && !mCurrentImageItem.isSelected()) {
-                String warning = getString(R.string.v_selector_ui_impl_max_image_over_fmt,
-                        mMaxCount);
-                Toast.makeText(this, warning, Toast.LENGTH_SHORT).show();
-                return true;
-            }
-            if (mCurrentImageItem.isSelected()) {
-                cancelImage();
-            } else {
-                if (!mSelectedImages.contains(mCurrentImageItem)) {
-                    if (mCurrentImageItem.isGifOverSize()) {
-                        Toast.makeText(getApplicationContext(),
-                                R.string.v_selector_ui_impl_gif_too_big, Toast.LENGTH_SHORT).show();
-                        return true;
+            if (mCurrentImageItem instanceof ImageMediaEntity) {
+                ImageMediaEntity photoMedia = (ImageMediaEntity) mCurrentImageItem;
+                if (mSelectedMedias.size() >= mMaxCount && !photoMedia.isSelected()) {
+                    String warning = getString(R.string.v_selector_ui_impl_too_many_picture_fmt,
+                            mMaxCount);
+                    Toast.makeText(this, warning, Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                if (photoMedia.isSelected()) {
+                    cancelMedia();
+                } else {
+                    if (!mSelectedMedias.contains(photoMedia)) {
+                        if (photoMedia.isGifOverSize()) {
+                            Toast.makeText(getApplicationContext(),
+                                    R.string.v_selector_ui_impl_gif_too_big, Toast.LENGTH_SHORT).show();
+                            return true;
+                        }
+                        photoMedia.setSelected(true);
+                        mSelectedMedias.add(photoMedia);
                     }
-                    mCurrentImageItem.setSelected(true);
-                    mSelectedImages.add(mCurrentImageItem);
+                }
+            } else if (mCurrentImageItem instanceof VideoMediaEntity) {
+                VideoMediaEntity videoMedia = (VideoMediaEntity) mCurrentImageItem;
+                if (mSelectedMedias.size() >= mMaxCount && !videoMedia.isSelected()) {
+                    String warning = getString(R.string.v_selector_ui_impl_too_many_video_fmt,
+                            mMaxCount);
+                    Toast.makeText(this, warning, Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                if (videoMedia.isSelected()) {
+                    cancelMedia();
+                } else {
+                    if (!mSelectedMedias.contains(videoMedia)) {
+                        videoMedia.setSelected(true);
+                        mSelectedMedias.add(videoMedia);
+                    }
                 }
             }
             setOkTextNumber();
@@ -224,13 +238,12 @@ public class MediaViewActivity extends BaseMediaViewActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void cancelImage() {
-        if (mSelectedImages.contains(mCurrentImageItem)) {
-            mSelectedImages.remove(mCurrentImageItem);
+    private void cancelMedia() {
+        if (mSelectedMedias.contains(mCurrentImageItem)) {
+            mSelectedMedias.remove(mCurrentImageItem);
         }
         mCurrentImageItem.setSelected(false);
     }
-
 
     private void setMenuIcon(boolean isSelected) {
         if (mNeedEdit) {
@@ -242,20 +255,18 @@ public class MediaViewActivity extends BaseMediaViewActivity {
     @Override
     public void startLoading() {
         if (!mNeedLoading) {
-            mCurrentImageItem = (ImageMediaEntity) mSelectedImages.get(mStartPos);
+            mCurrentImageItem = mSelectedMedias.get(mStartPos);
             mToolbar.setTitle(getString(R.string.v_selector_ui_impl_image_preview_title_fmt,
                     String.valueOf(mStartPos + 1)
-                    , String.valueOf(mSelectedImages.size())));
-            mProgressBar.setVisibility(View.GONE);
-            mGallery.setVisibility(View.VISIBLE);
-            mAdapter.setMedias(mImages);
-            if (mStartPos > 0 && mStartPos < mSelectedImages.size()) {
+                    , String.valueOf(mSelectedMedias.size())));
+            mAdapter.setMedias(mMedias);
+            if (mStartPos > 0 && mStartPos < mSelectedMedias.size()) {
                 mGallery.setCurrentItem(mStartPos, false);
             }
         } else {
             // 加载当前页
             loadMedia(mAlbumId, mStartPos, mCurrentPage);
-            mAdapter.setMedias(mImages);
+            mAdapter.setMedias(mMedias);
         }
     }
 
@@ -269,9 +280,9 @@ public class MediaViewActivity extends BaseMediaViewActivity {
         if (medias == null || totalCount <= 0) {
             return;
         }
-        mImages.addAll(medias);
+        mMedias.addAll(medias);
         mAdapter.notifyDataSetChanged();
-        checkSelectedMedia(mImages, mSelectedImages);
+        checkSelectedMedia(mMedias, mSelectedMedias);
         setupGallery();
 
         if (mToolbar != null && mNeedAllCount) {
@@ -287,16 +298,11 @@ public class MediaViewActivity extends BaseMediaViewActivity {
         if (mGallery == null || startPos < 0) {
             return;
         }
-        if (startPos < mImages.size() && !mFinishLoading) {
+        if (startPos < mMedias.size() && !mFinishLoading) {
             mGallery.setCurrentItem(mStartPos, false);
-            mCurrentImageItem = (ImageMediaEntity) mImages.get(startPos);
-            mProgressBar.setVisibility(View.GONE);
-            mGallery.setVisibility(View.VISIBLE);
+            mCurrentImageItem = mMedias.get(startPos);
             mFinishLoading = true;
             invalidateOptionsMenu();
-        } else if (startPos >= mImages.size()) {
-            mProgressBar.setVisibility(View.VISIBLE);
-            mGallery.setVisibility(View.GONE);
         }
     }
 
@@ -320,16 +326,16 @@ public class MediaViewActivity extends BaseMediaViewActivity {
         finishByBackPressed(true);
     }
 
-    private class ImagesAdapter extends FragmentStatePagerAdapter {
+    private class MediasAdapter extends FragmentStatePagerAdapter {
         private ArrayList<MediaEntity> mMedias;
 
-        ImagesAdapter(FragmentManager fm) {
+        MediasAdapter(FragmentManager fm) {
             super(fm);
         }
 
         @Override
         public Fragment getItem(int i) {
-            return MediaRawImageFragment.newInstance((ImageMediaEntity) mMedias.get(i));
+            return MediaPreViewFragment.newInstance(mMedias.get(i));
         }
 
         @Override
@@ -347,12 +353,12 @@ public class MediaViewActivity extends BaseMediaViewActivity {
 
         @Override
         public void onPageSelected(int position) {
-            if (mToolbar != null && position < mImages.size()) {
+            if (mToolbar != null && position < mMedias.size()) {
                 mToolbar.setTitle(getString(R.string.v_selector_ui_impl_image_preview_title_fmt,
                         String.valueOf(position + 1)
                         , mNeedLoading ? String.valueOf(mTotalCount) :
-                                String.valueOf(mImages.size())));
-                mCurrentImageItem = (ImageMediaEntity) mImages.get(position);
+                                String.valueOf(mMedias.size())));
+                mCurrentImageItem = mMedias.get(position);
                 invalidateOptionsMenu();
             }
         }

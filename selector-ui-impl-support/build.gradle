@@ -32,7 +32,8 @@ dependencies {
     api project(":selector-ui-support")
     api project(":selector-core-impl-support")
 
-    implementation('com.github.chrisbanes:PhotoView:2.0.0')
+    implementation 'it.sephiroth.android.library.imagezoom:library:1.0.4'
+
 }
 
 apply from: "$rootProject.projectDir/uploadBintray.gradle"

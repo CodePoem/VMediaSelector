@@ -32,6 +32,7 @@ public class SampleActivity extends AppCompatActivity {
 
     private TextView mTvPath;
 
+    private RadioGroup mRgType;
     private RadioGroup mRgNeedCamera;
     private RadioGroup mRgMultiSelectable;
 
@@ -50,15 +51,21 @@ public class SampleActivity extends AppCompatActivity {
         findViewById(R.id.btn_select).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectImage();
+                if (mRgType.getCheckedRadioButtonId() == R.id.rb_image) {
+                    selectImage();
+                } else {
+                    selectVideo();
+                }
             }
         });
 
         mTvPath = findViewById(R.id.tv_path);
 
+        mRgType = findViewById(R.id.rg_type);
         mRgNeedCamera = findViewById(R.id.rg_need_camera);
         mRgMultiSelectable = findViewById(R.id.rg_multi_selectable);
 
+        mRgType.check(R.id.rb_image);
         mRgNeedCamera.check(R.id.rb_need_camera);
         mRgMultiSelectable.check(R.id.rb_multi_select);
 
@@ -95,6 +102,35 @@ public class SampleActivity extends AppCompatActivity {
                 .setNeedCamera(mRgNeedCamera.getCheckedRadioButtonId() == R.id.rb_need_camera)
                 .setImageMultiSelected(mRgMultiSelectable.getCheckedRadioButtonId() == R.id.rb_multi_select)
                 .selectImage(SampleActivity.this, mMediaUris, new MediaSelectFilesCallback() {
+                    @Override
+                    public void onSuccess(int resultCode, Intent data, List<Uri> uris,
+                                          List<File> files) {
+                        if (mAdapter == null || mRecyclerView == null) {
+                            return;
+                        }
+                        if (mMediaPathList == null) {
+                            mMediaPathList = new ArrayList<>();
+                        }
+                        mMediaPathList.clear();
+                        for (File file : files) {
+                            mMediaPathList.add(file.getAbsolutePath());
+                        }
+                        mMediaUris = (ArrayList<Uri>) uris;
+                        mAdapter.setList(mMediaPathList);
+                    }
+
+                    @Override
+                    public void onFailed(Throwable mediaSelectError) {
+
+                    }
+                });
+    }
+
+    private void selectVideo() {
+        MediaSelectorUtils.of(new DefaultMediaSelectorImpl())
+                .setNeedCamera(mRgNeedCamera.getCheckedRadioButtonId() == R.id.rb_need_camera)
+                .setImageMultiSelected(mRgMultiSelectable.getCheckedRadioButtonId() == R.id.rb_multi_select)
+                .selectVideo(SampleActivity.this, new MediaSelectFilesCallback() {
                     @Override
                     public void onSuccess(int resultCode, Intent data, List<Uri> uris,
                                           List<File> files) {

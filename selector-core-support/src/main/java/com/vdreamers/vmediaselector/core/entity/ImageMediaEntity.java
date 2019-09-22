@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import com.vdreamers.vmediaselector.core.scope.ImageType;
 import com.vdreamers.vmediaselector.core.scope.ImageTypeConstants;
 import com.vdreamers.vmediaselector.core.scope.MediaType;
+import com.vdreamers.vmediaselector.core.scope.MediaTypeConstants;
 
 import java.io.File;
 import java.util.UUID;
@@ -24,10 +25,6 @@ import java.util.UUID;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class ImageMediaEntity extends MediaEntity implements Parcelable {
 
-    /**
-     * 是否被选中
-     */
-    private boolean mIsSelected;
     /**
      * 缩略图路径Uri
      */
@@ -54,6 +51,10 @@ public class ImageMediaEntity extends MediaEntity implements Parcelable {
      */
     private static final long MAX_GIF_SIZE = 1024 * 1024L;
 
+    {
+        this.mType = MediaTypeConstants.MEDIA_TYPE_IMAGE;
+    }
+
     public ImageMediaEntity() {
     }
 
@@ -61,21 +62,10 @@ public class ImageMediaEntity extends MediaEntity implements Parcelable {
         this.mId = UUID.randomUUID().toString();
         this.mUri = Uri.parse(file.toURI().toString());
         this.mSize = String.valueOf(file.length());
-        this.mIsSelected = true;
     }
 
     public static ImageMediaEntity of() {
         return new ImageMediaEntity();
-    }
-
-
-    public boolean isSelected() {
-        return mIsSelected;
-    }
-
-    public ImageMediaEntity setSelected(boolean selected) {
-        mIsSelected = selected;
-        return this;
     }
 
     public Uri getThumbnailUri() {
@@ -85,7 +75,6 @@ public class ImageMediaEntity extends MediaEntity implements Parcelable {
     public ImageMediaEntity setThumbnailUri(Uri thumbnailUri) {
         mThumbnailUri = thumbnailUri;
         return this;
-
     }
 
     public int getHeight() {
@@ -126,7 +115,7 @@ public class ImageMediaEntity extends MediaEntity implements Parcelable {
 
     @Override
     public ImageMediaEntity setType(@MediaType int type) {
-        this.type = type;
+        this.mType = type;
         return this;
     }
 
@@ -194,7 +183,6 @@ public class ImageMediaEntity extends MediaEntity implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeByte(this.mIsSelected ? (byte) 1 : (byte) 0);
         dest.writeParcelable(this.mThumbnailUri, flags);
         dest.writeInt(this.mHeight);
         dest.writeInt(this.mWidth);
@@ -204,7 +192,6 @@ public class ImageMediaEntity extends MediaEntity implements Parcelable {
 
     protected ImageMediaEntity(Parcel in) {
         super(in);
-        this.mIsSelected = in.readByte() != 0;
         this.mThumbnailUri = in.readParcelable(Uri.class.getClassLoader());
         this.mHeight = in.readInt();
         this.mWidth = in.readInt();

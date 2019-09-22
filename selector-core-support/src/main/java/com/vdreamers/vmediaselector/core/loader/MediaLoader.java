@@ -43,12 +43,11 @@ public class MediaLoader {
     }
 
     public void displayRaw(@NonNull ImageView img, @NonNull MediaEntity media, int width,
-                           int height,
-                           IMediaCallback callback) {
+                           int height) {
         if (ensureLoader()) {
             throw new IllegalStateException("init method should be called first");
         }
-        mLoader.displayRaw(img, media, width, height, callback);
+        mLoader.displayRaw(img, media, width, height);
     }
 
     public IMediaLoader getLoader() {

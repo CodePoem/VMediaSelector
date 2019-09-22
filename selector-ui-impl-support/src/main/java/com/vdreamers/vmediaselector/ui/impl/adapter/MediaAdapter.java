@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.vdreamers.vmediaselector.core.entity.ImageMediaEntity;
 import com.vdreamers.vmediaselector.core.entity.MediaEntity;
 import com.vdreamers.vmediaselector.core.option.SelectorOptions;
 import com.vdreamers.vmediaselector.ui.impl.MediaResHelper;
@@ -65,22 +64,22 @@ public class MediaAdapter extends RecyclerView.Adapter {
     @NonNull
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (CAMERA_TYPE == viewType) {
-            return new CameraViewHolder(mInflater.inflate(R.layout.v_selector_ui_impl_layout_recycleview_meida_header, parent, false));
+            return new CameraItemHolder(mInflater.inflate(R.layout.v_selector_ui_impl_layout_recycleview_meida_header, parent, false));
         }
-        return new ImageViewHolder(mInflater.inflate(R.layout.v_selector_ui_impl_layout_recycleview_media_item,
+        return new MediaItemHolder(mInflater.inflate(R.layout.v_selector_ui_impl_layout_recycleview_media_item,
                 parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof CameraViewHolder) {
-            CameraViewHolder viewHolder = (CameraViewHolder) holder;
+        if (holder instanceof CameraItemHolder) {
+            CameraItemHolder viewHolder = (CameraItemHolder) holder;
             viewHolder.mCameraLayout.setOnClickListener(mOnCameraClickListener);
             viewHolder.mCameraImg.setImageResource(MediaResHelper.getCameraRes());
         } else {
             int pos = position - mOffset;
             final MediaEntity media = mMedias.get(pos);
-            final ImageViewHolder vh = (ImageViewHolder) holder;
+            final MediaItemHolder vh = (MediaItemHolder) holder;
 
             vh.mItemLayout.setImageRes(mDefaultRes);
             vh.mItemLayout.setTag(media);
@@ -89,8 +88,8 @@ public class MediaAdapter extends RecyclerView.Adapter {
             vh.mItemLayout.setTag(R.id.media_item_check, pos);
             vh.mItemLayout.setMedia(media);
             vh.mItemChecked.setVisibility(mMultiImageMode ? View.VISIBLE : View.GONE);
-            if (mMultiImageMode && media instanceof ImageMediaEntity) {
-                vh.mItemLayout.setChecked(((ImageMediaEntity) media).isSelected());
+            if (mMultiImageMode) {
+                vh.mItemLayout.setChecked(media.isSelected());
                 vh.mItemChecked.setTag(R.id.media_layout, vh.mItemLayout);
                 vh.mItemChecked.setTag(media);
                 vh.mItemChecked.setOnClickListener(mOnCheckListener);
@@ -150,22 +149,22 @@ public class MediaAdapter extends RecyclerView.Adapter {
         return mMedias;
     }
 
-    private static class ImageViewHolder extends RecyclerView.ViewHolder {
+    private static class MediaItemHolder extends RecyclerView.ViewHolder {
         MediaItemLayout mItemLayout;
         View mItemChecked;
 
-        ImageViewHolder(View itemView) {
+        MediaItemHolder(View itemView) {
             super(itemView);
             mItemLayout = itemView.findViewById(R.id.media_layout);
             mItemChecked = itemView.findViewById(R.id.media_item_check);
         }
     }
 
-    private static class CameraViewHolder extends RecyclerView.ViewHolder {
+    private static class CameraItemHolder extends RecyclerView.ViewHolder {
         View mCameraLayout;
         ImageView mCameraImg;
 
-        CameraViewHolder(final View itemView) {
+        CameraItemHolder(final View itemView) {
             super(itemView);
             mCameraLayout = itemView.findViewById(R.id.camera_layout);
             mCameraImg = itemView.findViewById(R.id.camera_img);
@@ -192,9 +191,9 @@ public class MediaAdapter extends RecyclerView.Adapter {
          * In multi image mode, selecting a {@link MediaEntity} or undo.
          *
          * @param v      选中的View
-         * @param iMedia 选中的多媒体
+         * @param media 选中的多媒体
          */
-        void onChecked(View v, MediaEntity iMedia);
+        void onChecked(View v, MediaEntity media);
     }
 
 }

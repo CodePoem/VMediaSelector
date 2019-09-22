@@ -263,7 +263,8 @@ public class MediaSelectorUtils {
     private SelectorOptions createDefaultVideoOptions() {
         return SelectorOptions.of()
                 .setMode(SelectorModeConstants.MODE_VIDEO)
-                .setMultiSelectable(false)
+                .setMultiSelectable(mImageMultiSelected)
+                .setMaxSelectNum(mImageMultiMaxNum)
                 .setNeedCamera(false);
     }
 

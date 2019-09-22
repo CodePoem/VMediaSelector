@@ -11,7 +11,7 @@
         </activity>
 
         <activity
-            android:name=".MediaViewActivity"
+            android:name=".MediaPreViewActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/VSelectorUiImpl.Media.AppTheme.NoActionBar">

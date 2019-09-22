@@ -8,7 +8,6 @@
     <string name="v_selector_ui_impl_image_select_ok_fmt">(%1$s/%2$s) 确定</string>
     <string name="v_selector_ui_impl_album_images_fmt">(%d)</string>
 
-    <string name="v_selector_ui_impl_max_image_over_fmt">你最多只能选择%d张图片</string>
     <string name="v_selector_ui_impl_gif_too_big">您选择的gif图片过大，请压缩后再上传</string>
     <string name="v_selector_ui_impl_pick_single_video">视频单选</string>
     <string name="v_selector_ui_impl_pick_multi_image">图片多选</string>
@@ -25,8 +24,9 @@
     <string name="v_selector_ui_impl_default_album">默认相册</string>
     <string name="v_selector_ui_impl_nothing_found">什么也找不到</string>
     <string name="v_selector_ui_impl_too_many_picture_fmt">您最多只能选择%d张图片</string>
+    <string name="v_selector_ui_impl_too_many_video_fmt">您最多只能选择%d个视频</string>
     <string name="v_selector_ui_impl_default_album_name">所有相片</string>
     <string name="v_selector_ui_impl_preview">预览</string>
-
+    <string name="v_selector_ui_impl_error_no_video_activity">没有支持视频预览的应用</string>
 
 </resources>

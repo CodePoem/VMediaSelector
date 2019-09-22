@@ -21,7 +21,7 @@ public abstract class MediaEntity implements Parcelable {
      * 多媒体类型 {@link com.vdreamers.vmediaselector.core.scope.MediaTypeConstants}
      */
     @MediaType
-    protected int type;
+    protected int mType;
     /**
      * Uri
      */
@@ -34,16 +34,20 @@ public abstract class MediaEntity implements Parcelable {
      * 大小
      */
     protected String mSize;
+    /**
+     * 是否被选中
+     */
+    private boolean mIsSelected;
 
     public MediaEntity() {
     }
 
     public int getType() {
-        return type;
+        return mType;
     }
 
     public MediaEntity setType(@MediaType int type) {
-        this.type = type;
+        this.mType = type;
         return this;
     }
 
@@ -70,6 +74,15 @@ public abstract class MediaEntity implements Parcelable {
         return this;
     }
 
+    public boolean isSelected() {
+        return mIsSelected;
+    }
+
+    public MediaEntity setSelected(boolean selected) {
+        mIsSelected = selected;
+        return this;
+    }
+
     public long getSize() {
         try {
             long result = Long.parseLong(mSize);
@@ -79,7 +92,6 @@ public abstract class MediaEntity implements Parcelable {
         }
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -87,16 +99,18 @@ public abstract class MediaEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.type);
+        dest.writeInt(this.mType);
         dest.writeParcelable(this.mUri, flags);
         dest.writeString(this.mId);
         dest.writeString(this.mSize);
+        dest.writeByte(this.mIsSelected ? (byte) 1 : (byte) 0);
     }
 
     protected MediaEntity(Parcel in) {
-        this.type = in.readInt();
+        this.mType = in.readInt();
         this.mUri = in.readParcelable(Uri.class.getClassLoader());
         this.mId = in.readString();
         this.mSize = in.readString();
+        this.mIsSelected = in.readByte() != 0;
     }
 }
