@@ -3,11 +3,10 @@ package com.vdreamers.vmediaselector.core.entity;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.format.DateUtils;
 
 import com.vdreamers.vmediaselector.core.scope.MediaType;
 import com.vdreamers.vmediaselector.core.scope.MediaTypeConstants;
-
-import java.util.Locale;
 
 /**
  * 视频多媒体实体类
@@ -35,11 +34,6 @@ public class VideoMediaEntity extends MediaEntity implements Parcelable {
      * 媒体类型
      */
     private String mMimeType;
-    /**
-     * 单位MB byte数
-     */
-    private static final long MB = 1024 * 1024;
-
 
     {
         this.mType = MediaTypeConstants.MEDIA_TYPE_VIDEO;
@@ -62,7 +56,12 @@ public class VideoMediaEntity extends MediaEntity implements Parcelable {
     }
 
     public String getDuration() {
-        return mDuration;
+        try {
+            long duration = Long.parseLong(mDuration);
+            return DateUtils.formatElapsedTime(duration / 1000);
+        } catch (NumberFormatException e) {
+            return "0:00";
+        }
     }
 
     public VideoMediaEntity setDuration(String duration) {
@@ -110,19 +109,6 @@ public class VideoMediaEntity extends MediaEntity implements Parcelable {
     public VideoMediaEntity setSize(String size) {
         mSize = size;
         return this;
-    }
-
-    public String getSizeByUnit() {
-        double size = getSize();
-        if (size == 0) {
-            return "0K";
-        }
-        if (size >= MB) {
-            double sizeInMb = size / MB;
-            return String.format(Locale.getDefault(), "%.1f", sizeInMb) + "M";
-        }
-        double sizeInKb = size / 1024;
-        return String.format(Locale.getDefault(), "%.1f", sizeInKb) + "K";
     }
 
     @Override

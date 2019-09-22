@@ -34,7 +34,7 @@ public class MediaItemLayout extends FrameLayout {
     private static final int BIG_IMG_SIZE = 5 * 1024 * 1024;
 
     private ImageView mCheckImg;
-    private View mVideoLayout;
+    private View mBottomInfoLayout;
     private View mFontLayout;
     private ImageView mCoverImg;
     private ScreenType mScreenType;
@@ -67,7 +67,7 @@ public class MediaItemLayout extends FrameLayout {
                         true);
         mCoverImg = (ImageView) view.findViewById(R.id.media_item);
         mCheckImg = (ImageView) view.findViewById(R.id.media_item_check);
-        mVideoLayout = view.findViewById(R.id.video_layout);
+        mBottomInfoLayout = view.findViewById(R.id.layout_bottom_info);
         mFontLayout = view.findViewById(R.id.media_font_layout);
         mScreenType = getScreenType(context);
         setImageRect(context);
@@ -114,16 +114,14 @@ public class MediaItemLayout extends FrameLayout {
     }
 
     public void setMedia(MediaEntity media) {
+        ((TextView) mBottomInfoLayout.findViewById(R.id.tv_media_size)).setText(media.getSizeByUnit());
         if (media instanceof ImageMediaEntity) {
-            mVideoLayout.setVisibility(GONE);
-            setCover(((ImageMediaEntity) media));
+            setCover(media);
         } else if (media instanceof VideoMediaEntity) {
-            mVideoLayout.setVisibility(VISIBLE);
             VideoMediaEntity videoMedia = (VideoMediaEntity) media;
-            TextView durationTxt = ((TextView) mVideoLayout.findViewById(R.id.video_duration_txt));
-            durationTxt.setText(videoMedia.getDuration());
-            durationTxt.setCompoundDrawablesWithIntrinsicBounds(SelectorOptions.getInstance().getVideoDurationRes(), 0, 0, 0);
-            ((TextView) mVideoLayout.findViewById(R.id.video_size_txt)).setText(videoMedia.getSizeByUnit());
+            TextView tvBottomInfo = mBottomInfoLayout.findViewById(R.id.tv_vedio_duration);
+            tvBottomInfo.setText(videoMedia.getDuration());
+            tvBottomInfo.setCompoundDrawablesWithIntrinsicBounds(SelectorOptions.getInstance().getVideoDurationRes(), 0, 0, 0);
             setCover(videoMedia);
         }
     }

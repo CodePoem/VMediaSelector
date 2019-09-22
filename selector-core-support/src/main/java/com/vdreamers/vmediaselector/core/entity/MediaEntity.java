@@ -6,6 +6,8 @@ import android.os.Parcelable;
 
 import com.vdreamers.vmediaselector.core.scope.MediaType;
 
+import java.util.Locale;
+
 
 /**
  * 多媒体实体类
@@ -38,6 +40,11 @@ public abstract class MediaEntity implements Parcelable {
      * 是否被选中
      */
     private boolean mIsSelected;
+
+    /**
+     * 单位MB byte数
+     */
+    private static final long MB = 1024 * 1024;
 
     public MediaEntity() {
     }
@@ -90,6 +97,19 @@ public abstract class MediaEntity implements Parcelable {
         } catch (NumberFormatException size) {
             return 0;
         }
+    }
+
+    public String getSizeByUnit() {
+        double size = getSize();
+        if (size == 0) {
+            return "0K";
+        }
+        if (size >= MB) {
+            double sizeInMb = size / MB;
+            return String.format(Locale.getDefault(), "%.1f", sizeInMb) + "M";
+        }
+        double sizeInKb = size / 1024;
+        return String.format(Locale.getDefault(), "%.1f", sizeInKb) + "K";
     }
 
     @Override
