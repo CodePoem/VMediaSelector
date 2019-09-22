@@ -110,7 +110,21 @@ public class ImageMediaEntity extends MediaEntity implements Parcelable {
 
     public ImageMediaEntity setMimeType(String mimeType) {
         mMimeType = mimeType;
+        setImageType(getImageTypeByMime(mimeType));
         return this;
+    }
+
+    public int getImageTypeByMime(String mimeType) {
+        if (!TextUtils.isEmpty(mimeType)) {
+            if ("image/gif".equals(mimeType)) {
+                return ImageTypeConstants.IMAGE_TYPE_GIF;
+            } else if ("image/png".equals(mimeType)) {
+                return ImageTypeConstants.IMAGE_TYPE_PNG;
+            } else {
+                return ImageTypeConstants.IMAGE_TYPE_JPG;
+            }
+        }
+        return ImageTypeConstants.IMAGE_TYPE_PNG;
     }
 
     @Override
@@ -137,10 +151,17 @@ public class ImageMediaEntity extends MediaEntity implements Parcelable {
         return this;
     }
 
+    public boolean isPng() {
+        return getImageType() == ImageTypeConstants.IMAGE_TYPE_PNG;
+    }
+
+    public boolean isJpg() {
+        return getImageType() == ImageTypeConstants.IMAGE_TYPE_JPG;
+    }
+
     public boolean isGif() {
         return getImageType() == ImageTypeConstants.IMAGE_TYPE_GIF;
     }
-
 
     public boolean isGifOverSize() {
         return isGif() && getSize() > MAX_GIF_SIZE;

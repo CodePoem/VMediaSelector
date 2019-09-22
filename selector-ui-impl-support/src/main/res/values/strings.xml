@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="v_selector_ui_impl_app_name">vmediaselector</string>
     <string name="v_selector_ui_impl_ok">确定</string>
@@ -28,5 +29,7 @@
     <string name="v_selector_ui_impl_default_album_name">所有相片</string>
     <string name="v_selector_ui_impl_preview">预览</string>
     <string name="v_selector_ui_impl_error_no_video_activity">没有支持视频预览的应用</string>
-
+    <string name="v_selector_ui_impl_png">PNG</string>
+    <string name="v_selector_ui_impl_jpg">JPG</string>
+    <string name="v_selector_ui_impl_gif">GIF</string>
 </resources>

@@ -114,16 +114,29 @@ public class MediaItemLayout extends FrameLayout {
     }
 
     public void setMedia(MediaEntity media) {
+        TextView tvMediaInfo = mBottomInfoLayout.findViewById(R.id.tv_media_info);
         ((TextView) mBottomInfoLayout.findViewById(R.id.tv_media_size)).setText(media.getSizeByUnit());
         if (media instanceof ImageMediaEntity) {
+            ImageMediaEntity imageMediaEntity = (ImageMediaEntity) media;
+            tvMediaInfo.setText(getImageType(imageMediaEntity));
             setCover(media);
         } else if (media instanceof VideoMediaEntity) {
             VideoMediaEntity videoMedia = (VideoMediaEntity) media;
-            TextView tvBottomInfo = mBottomInfoLayout.findViewById(R.id.tv_vedio_duration);
-            tvBottomInfo.setText(videoMedia.getDuration());
-            tvBottomInfo.setCompoundDrawablesWithIntrinsicBounds(SelectorOptions.getInstance().getVideoDurationRes(), 0, 0, 0);
+            tvMediaInfo.setText(videoMedia.getDuration());
+            tvMediaInfo.setCompoundDrawablesWithIntrinsicBounds(SelectorOptions.getInstance().getVideoDurationRes(), 0, 0, 0);
             setCover(videoMedia);
         }
+    }
+
+    private CharSequence getImageType(ImageMediaEntity imageMediaEntity) {
+        if (imageMediaEntity.isPng()) {
+            return getContext().getString(R.string.v_selector_ui_impl_png);
+        } else if (imageMediaEntity.isJpg()) {
+            return getContext().getString(R.string.v_selector_ui_impl_jpg);
+        }  else if (imageMediaEntity.isGif()) {
+            return getContext().getString(R.string.v_selector_ui_impl_gif);
+        }
+        return "";
     }
 
     private void setCover(@NonNull MediaEntity imageMedia) {

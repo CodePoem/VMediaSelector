@@ -1,5 +1,4 @@
 <resources>
-    <string name="v_selector_ui_impl_app_name">vmediaselector</string>
     <string name="v_selector_ui_impl_ok">确定</string>
     <string name="v_selector_ui_impl_fab_label_camera">拍照</string>
 
