@@ -25,7 +25,7 @@ dependencies {
     androidTestImplementation rootProject.ext.testDependenciesSupport['supportTestRunnerJunit']
     androidTestImplementation rootProject.ext.testDependenciesSupport['supportTestEspressoCore']
 
-    implementation rootProject.ext.dependenciesSupport['supportAppcompat']
+    compileOnly rootProject.ext.dependenciesSupport['supportAppcompat']
 
     api project(":selector-ui-impl-support")
 }

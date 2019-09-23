@@ -101,6 +101,7 @@ public class SampleActivity extends AppCompatActivity {
         MediaSelectorUtils.of(new DefaultMediaSelectorImpl())
                 .setNeedCamera(mRgNeedCamera.getCheckedRadioButtonId() == R.id.rb_need_camera)
                 .setImageMultiSelected(mRgMultiSelectable.getCheckedRadioButtonId() == R.id.rb_multi_select)
+                .setNeedGif(true)
                 .selectImage(SampleActivity.this, mMediaUris, new MediaSelectFilesCallback() {
                     @Override
                     public void onSuccess(int resultCode, Intent data, List<Uri> uris,

@@ -47,6 +47,18 @@ public class MediaSelectorUtils {
      */
     private boolean mNeedCamera = SelectorOptions.DEFAULT_NEED_CAMERA;
     /**
+     * 是否支持Gif
+     */
+    private boolean mNeedGif = SelectorOptions.DEFAULT_NEED_GIF;
+    /**
+     * FileProvider 授权标识
+     */
+    private String mAuthorities;
+    /**
+     * 子目录-用于存储拍照等 如果改变必须自行适配7.0 authorities
+     */
+    private String mSubDir;
+    /**
      * 请求码
      */
     private int mRequestCodeSelector = REQUEST_CODE_MEDIA_SELECTOR;
@@ -54,10 +66,6 @@ public class MediaSelectorUtils {
      * 多媒体选择器
      */
     private IMediaSelector mMediaSelector;
-    /**
-     * 选择器参数选项参数
-     */
-    private SelectorOptions mSelectorOptions;
 
     private MediaSelectorUtils(IMediaSelector iMediaSelecto) {
         mMediaSelector = iMediaSelecto;
@@ -195,7 +203,10 @@ public class MediaSelectorUtils {
                 .setMode(SelectorModeConstants.MODE_IMAGE)
                 .setMultiSelectable(mImageMultiSelected)
                 .setMaxSelectNum(mImageMultiMaxNum)
-                .setNeedCamera(mNeedCamera);
+                .setNeedCamera(mNeedCamera)
+                .setNeedGif(mNeedGif)
+                .setSubDir(mSubDir)
+                .setAuthorities(mAuthorities);
     }
 
     /**
@@ -337,6 +348,26 @@ public class MediaSelectorUtils {
      */
     public MediaSelectorUtils setNeedCamera(boolean needCamera) {
         mNeedCamera = needCamera;
+        return this;
+    }
+
+    public MediaSelectorUtils setNeedGif(boolean needGif) {
+        mNeedGif = needGif;
+        return this;
+    }
+
+    public MediaSelectorUtils setAuthorities(String authorities) {
+        mAuthorities = authorities;
+        return this;
+    }
+
+    public MediaSelectorUtils setSubDir(String subDir) {
+        mSubDir = subDir;
+        return this;
+    }
+
+    public MediaSelectorUtils setRequestCodeSelector(int requestCodeSelector) {
+        mRequestCodeSelector = requestCodeSelector;
         return this;
     }
 }
