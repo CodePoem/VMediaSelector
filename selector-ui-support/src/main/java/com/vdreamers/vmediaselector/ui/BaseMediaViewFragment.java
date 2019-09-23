@@ -353,9 +353,9 @@ public abstract class BaseMediaViewFragment extends Fragment implements Selector
     public final int getMaxCount() {
         SelectorOptions selectorOptions = SelectorOptions.getInstance();
         if (selectorOptions == null) {
-            return SelectorOptions.DEFAULT_MAX_SELECT_NUM;
+            return SelectorOptions.DEFAULT_MULTI_MAX_NUM;
         }
-        return selectorOptions.getMaxSelectNum();
+        return selectorOptions.getMultiMaxNum();
     }
 
     /**

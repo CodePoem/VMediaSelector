@@ -32,7 +32,7 @@ public class SelectorOptions implements Parcelable {
     /**
      * 最大选择数量
      */
-    private int mMaxSelectNum = DEFAULT_MAX_SELECT_NUM;
+    private int mMultiMaxNum = DEFAULT_MULTI_MAX_NUM;
     /**
      * 是否需要相机
      */
@@ -64,7 +64,7 @@ public class SelectorOptions implements Parcelable {
     /**
      * 默认最大选择数量9
      */
-    public static final int DEFAULT_MAX_SELECT_NUM = 9;
+    public static final int DEFAULT_MULTI_MAX_NUM = 9;
     /**
      * 默认需要拍照
      */
@@ -133,7 +133,7 @@ public class SelectorOptions implements Parcelable {
     private void reset() {
         mMode = SelectorModeConstants.MODE_IMAGE;
         mMultiSelectable = false;
-        mMaxSelectNum = DEFAULT_MAX_SELECT_NUM;
+        mMultiMaxNum = DEFAULT_MULTI_MAX_NUM;
         mNeedCamera = false;
         mNeedGif = false;
         mNeedPaging = true;
@@ -152,12 +152,12 @@ public class SelectorOptions implements Parcelable {
         return this;
     }
 
-    public int getMaxSelectNum() {
-        return mMaxSelectNum;
+    public int getMultiMaxNum() {
+        return mMultiMaxNum;
     }
 
-    public SelectorOptions setMaxSelectNum(int maxSelectNum) {
-        mMaxSelectNum = maxSelectNum;
+    public SelectorOptions setMultiMaxNum(int multiMaxNum) {
+        mMultiMaxNum = multiMaxNum;
         return this;
     }
 
@@ -320,7 +320,7 @@ public class SelectorOptions implements Parcelable {
         dest.writeInt(this.mMode);
         dest.writeInt(this.mViewMode);
         dest.writeByte(this.mMultiSelectable ? (byte) 1 : (byte) 0);
-        dest.writeInt(this.mMaxSelectNum);
+        dest.writeInt(this.mMultiMaxNum);
         dest.writeByte(this.mNeedCamera ? (byte) 1 : (byte) 0);
         dest.writeByte(this.mNeedGif ? (byte) 1 : (byte) 0);
         dest.writeByte(this.mNeedPaging ? (byte) 1 : (byte) 0);
@@ -339,7 +339,7 @@ public class SelectorOptions implements Parcelable {
         this.mMode = in.readInt();
         this.mViewMode = in.readInt();
         this.mMultiSelectable = in.readByte() != 0;
-        this.mMaxSelectNum = in.readInt();
+        this.mMultiMaxNum = in.readInt();
         this.mNeedCamera = in.readByte() != 0;
         this.mNeedGif = in.readByte() != 0;
         this.mNeedPaging = in.readByte() != 0;

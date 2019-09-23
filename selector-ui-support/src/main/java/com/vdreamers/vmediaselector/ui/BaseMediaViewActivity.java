@@ -167,9 +167,9 @@ public abstract class BaseMediaViewActivity extends AppCompatActivity implements
     public final int getMaxCount() {
         SelectorOptions options = SelectorOptions.getInstance();
         if (options == null) {
-            return SelectorOptions.DEFAULT_MAX_SELECT_NUM;
+            return SelectorOptions.DEFAULT_MULTI_MAX_NUM;
         }
-        return options.getMaxSelectNum();
+        return options.getMultiMaxNum();
     }
 
     @NonNull

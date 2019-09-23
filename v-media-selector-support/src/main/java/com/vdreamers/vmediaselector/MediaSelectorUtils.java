@@ -37,11 +37,11 @@ public class MediaSelectorUtils {
     /**
      * 图片是否多选
      */
-    private boolean mImageMultiSelected = SelectorOptions.DEFAULT_MULTI_SELECTABLE;
+    private boolean mMultiSelected = SelectorOptions.DEFAULT_MULTI_SELECTABLE;
     /**
      * 图片多选最大数量
      */
-    private int mImageMultiMaxNum = SelectorOptions.DEFAULT_MAX_SELECT_NUM;
+    private int mMultiMaxNum = SelectorOptions.DEFAULT_MULTI_MAX_NUM;
     /**
      * 是否需要相机
      */
@@ -201,8 +201,8 @@ public class MediaSelectorUtils {
     private SelectorOptions createDefaultImageOptions() {
         return SelectorOptions.of()
                 .setMode(SelectorModeConstants.MODE_IMAGE)
-                .setMultiSelectable(mImageMultiSelected)
-                .setMaxSelectNum(mImageMultiMaxNum)
+                .setMultiSelectable(mMultiSelected)
+                .setMultiMaxNum(mMultiMaxNum)
                 .setNeedCamera(mNeedCamera)
                 .setNeedGif(mNeedGif)
                 .setSubDir(mSubDir)
@@ -274,8 +274,8 @@ public class MediaSelectorUtils {
     private SelectorOptions createDefaultVideoOptions() {
         return SelectorOptions.of()
                 .setMode(SelectorModeConstants.MODE_VIDEO)
-                .setMultiSelectable(mImageMultiSelected)
-                .setMaxSelectNum(mImageMultiMaxNum)
+                .setMultiSelectable(mMultiSelected)
+                .setMultiMaxNum(mMultiMaxNum)
                 .setNeedCamera(false);
     }
 
@@ -324,20 +324,20 @@ public class MediaSelectorUtils {
     /**
      * 设置图片是否可多选
      *
-     * @param imageMultiSelected 图片是否可多选
+     * @param multiSelected 图片是否可多选
      */
-    public MediaSelectorUtils setImageMultiSelected(boolean imageMultiSelected) {
-        mImageMultiSelected = imageMultiSelected;
+    public MediaSelectorUtils setMultiSelected(boolean multiSelected) {
+        mMultiSelected = multiSelected;
         return this;
     }
 
     /**
      * 设置图片多选最大数量（在图片可多选情况下生效）
      *
-     * @param imageMultiMaxNum 图片多选最大数量
+     * @param multiMaxNum 图片多选最大数量
      */
-    public MediaSelectorUtils setImageMultiMaxNum(int imageMultiMaxNum) {
-        this.mImageMultiMaxNum = imageMultiMaxNum;
+    public MediaSelectorUtils setMultiMaxNum(int multiMaxNum) {
+        this.mMultiMaxNum = multiMaxNum;
         return this;
     }
 
