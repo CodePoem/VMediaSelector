@@ -62,6 +62,7 @@ public class ImageMediaEntity extends MediaEntity implements Parcelable {
         this.mId = UUID.randomUUID().toString();
         this.mUri = Uri.parse(file.toURI().toString());
         this.mSize = String.valueOf(file.length());
+        this.mIsSelected = true;
     }
 
     public static ImageMediaEntity of() {

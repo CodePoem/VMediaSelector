@@ -37,7 +37,7 @@ public class MediaSelectorUtils {
     /**
      * 图片是否多选
      */
-    private boolean mMultiSelected = SelectorOptions.DEFAULT_MULTI_SELECTABLE;
+    private boolean mMultiSelectable = SelectorOptions.DEFAULT_MULTI_SELECTABLE;
     /**
      * 图片多选最大数量
      */
@@ -201,7 +201,7 @@ public class MediaSelectorUtils {
     private SelectorOptions createDefaultImageOptions() {
         return SelectorOptions.of()
                 .setMode(SelectorModeConstants.MODE_IMAGE)
-                .setMultiSelectable(mMultiSelected)
+                .setMultiSelectable(mMultiSelectable)
                 .setMultiMaxNum(mMultiMaxNum)
                 .setNeedCamera(mNeedCamera)
                 .setNeedGif(mNeedGif)
@@ -274,7 +274,7 @@ public class MediaSelectorUtils {
     private SelectorOptions createDefaultVideoOptions() {
         return SelectorOptions.of()
                 .setMode(SelectorModeConstants.MODE_VIDEO)
-                .setMultiSelectable(mMultiSelected)
+                .setMultiSelectable(mMultiSelectable)
                 .setMultiMaxNum(mMultiMaxNum)
                 .setNeedCamera(false);
     }
@@ -324,10 +324,10 @@ public class MediaSelectorUtils {
     /**
      * 设置图片是否可多选
      *
-     * @param multiSelected 图片是否可多选
+     * @param multiSelectable 图片是否可多选
      */
-    public MediaSelectorUtils setMultiSelected(boolean multiSelected) {
-        mMultiSelected = multiSelected;
+    public MediaSelectorUtils setMultiSelectable(boolean multiSelectable) {
+        mMultiSelectable = multiSelectable;
         return this;
     }
 

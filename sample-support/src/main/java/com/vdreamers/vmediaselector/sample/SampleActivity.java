@@ -100,7 +100,7 @@ public class SampleActivity extends AppCompatActivity {
     private void selectImage() {
         MediaSelectorUtils.of(new DefaultMediaSelectorImpl())
                 .setNeedCamera(mRgNeedCamera.getCheckedRadioButtonId() == R.id.rb_need_camera)
-                .setMultiSelected(mRgMultiSelectable.getCheckedRadioButtonId() == R.id.rb_multi_select)
+                .setMultiSelectable(mRgMultiSelectable.getCheckedRadioButtonId() == R.id.rb_multi_select)
                 .setNeedGif(true)
                 .selectImage(SampleActivity.this, mMediaUris, new MediaSelectFilesCallback() {
                     @Override
@@ -130,7 +130,7 @@ public class SampleActivity extends AppCompatActivity {
     private void selectVideo() {
         MediaSelectorUtils.of(new DefaultMediaSelectorImpl())
                 .setNeedCamera(mRgNeedCamera.getCheckedRadioButtonId() == R.id.rb_need_camera)
-                .setMultiSelected(mRgMultiSelectable.getCheckedRadioButtonId() == R.id.rb_multi_select)
+                .setMultiSelectable(mRgMultiSelectable.getCheckedRadioButtonId() == R.id.rb_multi_select)
                 .selectVideo(SampleActivity.this, new MediaSelectFilesCallback() {
                     @Override
                     public void onSuccess(int resultCode, Intent data, List<Uri> uris,

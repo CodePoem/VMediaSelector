@@ -39,12 +39,11 @@ public abstract class MediaEntity implements Parcelable {
     /**
      * 是否被选中
      */
-    private boolean mIsSelected;
-
+    protected boolean mIsSelected;
     /**
      * 单位MB byte数
      */
-    private static final long MB = 1024 * 1024;
+    protected static final long MB = 1024 * 1024;
 
     public MediaEntity() {
     }
