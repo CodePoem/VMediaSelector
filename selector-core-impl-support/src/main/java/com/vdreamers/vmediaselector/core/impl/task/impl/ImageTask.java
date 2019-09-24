@@ -16,7 +16,7 @@ import com.vdreamers.vmediaselector.core.entity.ImageMediaEntity;
 import com.vdreamers.vmediaselector.core.impl.callback.IMediaTaskCallback;
 import com.vdreamers.vmediaselector.core.impl.task.IMediaTask;
 import com.vdreamers.vmediaselector.core.option.SelectorOptions;
-import com.vdreamers.vmediaselector.core.scope.MimeTypeConstants;
+import com.vdreamers.vmediaselector.core.scope.ImageMimeTypeConstants;
 import com.vdreamers.vmediaselector.core.selector.MediaSelector;
 import com.vdreamers.vmediaselector.core.utils.LoadExecutorUtils;
 
@@ -65,14 +65,14 @@ public class ImageTask implements IMediaTask<ImageMediaEntity> {
             SQL_AND + "( " + SELECTION_IMAGE_MIME_TYPE_WITHOUT_GIF + " )";
 
     private static final String[] SELECTION_ARGS_IMAGE_MIME_TYPE = {
-            MimeTypeConstants.IMAGE_JPEG,
-            MimeTypeConstants.IMAGE_PNG,
-            MimeTypeConstants.IMAGE_JPG,
-            MimeTypeConstants.IMAGE_GIF};
+            ImageMimeTypeConstants.IMAGE_JPEG,
+            ImageMimeTypeConstants.IMAGE_PNG,
+            ImageMimeTypeConstants.IMAGE_JPG,
+            ImageMimeTypeConstants.IMAGE_GIF};
     private static final String[] SELECTION_ARGS_IMAGE_MIME_TYPE_WITHOUT_GIF = {
-            MimeTypeConstants.IMAGE_JPEG,
-            MimeTypeConstants.IMAGE_PNG,
-            MimeTypeConstants.IMAGE_JPG};
+            ImageMimeTypeConstants.IMAGE_JPEG,
+            ImageMimeTypeConstants.IMAGE_PNG,
+            ImageMimeTypeConstants.IMAGE_JPG};
 
     private static final String DESC = " DESC";
 
@@ -100,7 +100,9 @@ public class ImageTask implements IMediaTask<ImageMediaEntity> {
                     Images.Thumbnails.MINI_KIND, QUERY_PROJECTION_THUMBNAIL);
             if (cur != null && cur.moveToFirst()) {
                 do {
-                    Long imageId = cur.getLong(cur.getColumnIndex(QUERY_PROJECTION_THUMBNAIL[0]));
+                    long imageId = cur.getLong(cur.getColumnIndex(QUERY_PROJECTION_THUMBNAIL[0]));
+                    String id = cur.getString(cur.getColumnIndex(QUERY_PROJECTION_THUMBNAIL[0]));
+
                     // Uri
                     Uri imageUri = ContentUris.withAppendedId(QUERY_URI_THUMBNAIL, imageId);
                     mThumbnailMap.put(imageId, imageUri);
@@ -156,12 +158,11 @@ public class ImageTask implements IMediaTask<ImageMediaEntity> {
                          @NonNull final IMediaTaskCallback<ImageMediaEntity> callback) {
         if (cursor != null && cursor.moveToFirst()) {
             do {
+                long id = cursor.getLong(cursor.getColumnIndex(Images.Media._ID));
                 // Uri
-                long picId = cursor.getLong(cursor.getColumnIndex(Images.Media._ID));
                 Uri uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                        , picId);
-
-                String id = cursor.getString(cursor.getColumnIndex(Images.Media._ID));
+                        , id);
+                String title = cursor.getString(cursor.getColumnIndex(Images.Media.TITLE));
                 String size = cursor.getString(cursor.getColumnIndex(Images.Media.SIZE));
                 String mimeType =
                         cursor.getString(cursor.getColumnIndex(Images.Media.MIME_TYPE));
@@ -174,6 +175,7 @@ public class ImageTask implements IMediaTask<ImageMediaEntity> {
                 ImageMediaEntity imageItem = ImageMediaEntity.of()
                         .setId(id)
                         .setUri(uri)
+                        .setTitle(title)
                         .setThumbnailUri(mThumbnailMap.get(id))
                         .setSize(size).setMimeType(mimeType).setHeight(height).setWidth(width);
                 if (!result.contains(imageItem)) {
@@ -221,10 +223,10 @@ public class ImageTask implements IMediaTask<ImageMediaEntity> {
     private String[] getColumns() {
         String[] columns;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            columns = new String[]{Images.Media._ID, Images.Media.SIZE,
+            columns = new String[]{Images.Media._ID, Images.Media.TITLE, Images.Media.SIZE,
                     Images.Media.MIME_TYPE, Images.Media.WIDTH, Images.Media.HEIGHT};
         } else {
-            columns = new String[]{Images.Media._ID, Images.Media.SIZE,
+            columns = new String[]{Images.Media._ID, Images.Media.TITLE, Images.Media.SIZE,
                     Images.Media.MIME_TYPE};
         }
         return columns;
@@ -242,15 +244,17 @@ public class ImageTask implements IMediaTask<ImageMediaEntity> {
             } else {
                 if (isNeedGif) {
                     allCursor = cr.query(Images.Media.EXTERNAL_CONTENT_URI, columns, SELECTION_ID,
-                            new String[]{bucketId, MimeTypeConstants.IMAGE_JPEG,
-                                    MimeTypeConstants.IMAGE_PNG, MimeTypeConstants.IMAGE_JPG,
-                                    MimeTypeConstants.IMAGE_GIF},
+                            new String[]{bucketId, ImageMimeTypeConstants.IMAGE_JPEG,
+                                    ImageMimeTypeConstants.IMAGE_PNG,
+                                    ImageMimeTypeConstants.IMAGE_JPG,
+                                    ImageMimeTypeConstants.IMAGE_GIF},
                             Images.Media.DATE_MODIFIED + DESC);
                 } else {
                     allCursor = cr.query(Images.Media.EXTERNAL_CONTENT_URI, columns,
                             SELECTION_ID_WITHOUT_GIF,
-                            new String[]{bucketId, MimeTypeConstants.IMAGE_JPEG,
-                                    MimeTypeConstants.IMAGE_PNG, MimeTypeConstants.IMAGE_JPG},
+                            new String[]{bucketId, ImageMimeTypeConstants.IMAGE_JPEG,
+                                    ImageMimeTypeConstants.IMAGE_PNG,
+                                    ImageMimeTypeConstants.IMAGE_JPG},
                             Images.Media.DATE_MODIFIED + DESC);
                 }
             }

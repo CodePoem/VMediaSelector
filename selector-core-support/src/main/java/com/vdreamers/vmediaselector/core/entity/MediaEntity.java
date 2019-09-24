@@ -31,11 +31,15 @@ public abstract class MediaEntity implements Parcelable {
     /**
      * Id
      */
-    protected String mId;
+    protected long mId;
     /**
      * 大小
      */
     protected String mSize;
+    /**
+     * 标题
+     */
+    protected String mTitle;
     /**
      * 是否被选中
      */
@@ -66,12 +70,21 @@ public abstract class MediaEntity implements Parcelable {
         return this;
     }
 
-    public String getId() {
+    public long getId() {
         return mId;
     }
 
-    public MediaEntity setId(String id) {
+    public MediaEntity setId(long id) {
         mId = id;
+        return this;
+    }
+
+    public String getTitle() {
+        return mTitle;
+    }
+
+    public MediaEntity setTitle(String title) {
+        mTitle = title;
         return this;
     }
 
@@ -120,7 +133,8 @@ public abstract class MediaEntity implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.mType);
         dest.writeParcelable(this.mUri, flags);
-        dest.writeString(this.mId);
+        dest.writeLong(this.mId);
+        dest.writeString(this.mTitle);
         dest.writeString(this.mSize);
         dest.writeByte(this.mIsSelected ? (byte) 1 : (byte) 0);
     }
@@ -128,7 +142,8 @@ public abstract class MediaEntity implements Parcelable {
     protected MediaEntity(Parcel in) {
         this.mType = in.readInt();
         this.mUri = in.readParcelable(Uri.class.getClassLoader());
-        this.mId = in.readString();
+        this.mId = in.readLong();
+        this.mTitle = in.readString();
         this.mSize = in.readString();
         this.mIsSelected = in.readByte() != 0;
     }

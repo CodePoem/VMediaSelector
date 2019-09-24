@@ -15,7 +15,7 @@ import com.vdreamers.vmediaselector.core.entity.AlbumEntity;
 import com.vdreamers.vmediaselector.core.entity.ImageMediaEntity;
 import com.vdreamers.vmediaselector.core.impl.callback.IAlbumTaskCallback;
 import com.vdreamers.vmediaselector.core.option.SelectorOptions;
-import com.vdreamers.vmediaselector.core.scope.MimeTypeConstants;
+import com.vdreamers.vmediaselector.core.scope.ImageMimeTypeConstants;
 import com.vdreamers.vmediaselector.core.utils.LoadExecutorUtils;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import java.util.Map;
  * 相册加载任务
  * <p>
  * date 2019-09-18 20:31:50
- *`
+ *
  * @author <a href="mailto:codepoetdream@gmail.com">Mr.D</a>
  */
 @WorkerThread
@@ -97,14 +97,14 @@ public class AlbumTask {
     private static final String SELECTION_ID_WITHOUT_GIF = Media.BUCKET_ID + SQL_ARG +
             SQL_AND + "( " + SELECTION_IMAGE_MIME_TYPE_WITHOUT_GIF + " )";
     private static final String[] SELECTION_ARGS_IMAGE_MIME_TYPE = {
-            MimeTypeConstants.IMAGE_JPEG,
-            MimeTypeConstants.IMAGE_PNG,
-            MimeTypeConstants.IMAGE_JPG,
-            MimeTypeConstants.IMAGE_GIF};
+            ImageMimeTypeConstants.IMAGE_JPEG,
+            ImageMimeTypeConstants.IMAGE_PNG,
+            ImageMimeTypeConstants.IMAGE_JPG,
+            ImageMimeTypeConstants.IMAGE_GIF};
     private static final String[] SELECTION_ARGS_IMAGE_MIME_TYPE_WITHOUT_GIF = {
-            MimeTypeConstants.IMAGE_JPEG,
-            MimeTypeConstants.IMAGE_PNG,
-            MimeTypeConstants.IMAGE_JPG};
+            ImageMimeTypeConstants.IMAGE_JPEG,
+            ImageMimeTypeConstants.IMAGE_PNG,
+            ImageMimeTypeConstants.IMAGE_JPG};
     /**
      * 相册封面排序条件
      */
@@ -171,13 +171,13 @@ public class AlbumTask {
                 selectionArgs, QUERY_SORT_ORDER_ALBUM_COVER);
         try {
             if (coverCursor != null && coverCursor.moveToFirst()) {
-                String picId =
-                        coverCursor.getString(coverCursor.getColumnIndex(QUERY_PROJECTION_ALBUM_COVER[0]));
+                long id =
+                        coverCursor.getLong(coverCursor.getColumnIndex(QUERY_PROJECTION_ALBUM_COVER[0]));
                 album.mCount = coverCursor.getCount();
                 // Uri
                 Uri uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                        , Long.parseLong(picId));
-                album.mImageList.add(ImageMediaEntity.of().setId(picId).setUri(uri));
+                        , id);
+                album.mImageList.add(ImageMediaEntity.of().setId(id).setUri(uri));
                 if (album.mImageList.size() > 0) {
                     mBucketMap.put(buckId, album);
                 }

@@ -1,6 +1,6 @@
 package com.vdreamers.vmediaselector.core.scope;
 
-import android.support.annotation.IntDef;
+import android.support.annotation.StringDef;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -8,8 +8,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 图片类型限定
- * {@link ImageTypeConstants}
+ * 图片媒体类型限定
+ * {@link ImageMimeTypeConstants}
  * <p>
  * date 2019/09/18 15:15:55
  *
@@ -17,8 +17,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.SOURCE)
 @Target({ElementType.PARAMETER, ElementType.FIELD})
-@IntDef({ImageTypeConstants.IMAGE_TYPE_PNG, ImageTypeConstants.IMAGE_TYPE_JPG,
-        ImageTypeConstants.IMAGE_TYPE_GIF})
-public @interface ImageType {
-
+@StringDef({ImageMimeTypeConstants.IMAGE_GIF, ImageMimeTypeConstants.IMAGE_PNG,
+        ImageMimeTypeConstants.IMAGE_JPG, ImageMimeTypeConstants.IMAGE_JPEG})
+public @interface ImageMimeType {
 }

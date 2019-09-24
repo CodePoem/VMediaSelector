@@ -2,7 +2,6 @@ package com.vdreamers.vmediaselector.ui;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,7 +16,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
 
 import com.vdreamers.vmediaselector.core.option.SelectorOptions;
 import com.vdreamers.vmediaselector.core.utils.LoadExecutorUtils;
@@ -44,7 +42,6 @@ public class CameraPickerHelper {
     public static final int REQ_CODE_CAMERA = 0x2001;
     private static final String STATE_SAVED_KEY = "state_saved_key";
 
-    private String mSourceFilePath;
     private File mOutputFile;
     private Callback mCallback;
 
@@ -57,7 +54,7 @@ public class CameraPickerHelper {
         void onFinish(@NonNull CameraPickerHelper helper);
 
         /**
-         * 成功回调
+         * 错误回调
          *
          * @param helper
          */
@@ -69,7 +66,6 @@ public class CameraPickerHelper {
             SavedState state = savedInstance.getParcelable(STATE_SAVED_KEY);
             if (state != null) {
                 mOutputFile = state.mOutputFile;
-                mSourceFilePath = state.mSourceFilePath;
             }
         }
     }
@@ -81,7 +77,6 @@ public class CameraPickerHelper {
     public void onSaveInstanceState(Bundle out) {
         SavedState state = new SavedState();
         state.mOutputFile = mOutputFile;
-        state.mSourceFilePath = mSourceFilePath;
         out.putParcelable(STATE_SAVED_KEY, state);
     }
 
@@ -162,7 +157,6 @@ public class CameraPickerHelper {
     private void startCameraIntent(final Activity activity, final Fragment fragment,
                                    String subFolder,
                                    final String action, final int requestCode) {
-
         String cameraOutDir;
         if (SelectorOptions.getInstance().isStoreCameraImage()) {
             cameraOutDir = MediaFileHelper.getExternalDCIM(subFolder);
@@ -171,35 +165,20 @@ public class CameraPickerHelper {
         }
         if (MediaFileHelper.createFile(cameraOutDir)) {
             mOutputFile = new File(cameraOutDir, System.currentTimeMillis() + ".jpg");
-            mSourceFilePath = mOutputFile.getPath();
             Intent intent = new Intent(action);
-            Uri uri = getFileUri(activity.getApplicationContext(), mOutputFile);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+            Uri outputUri = FileProviderUtils.getFileUri(activity.getApplicationContext(),
+                    mOutputFile);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
             try {
                 startActivityForResult(activity, fragment, intent, requestCode);
             } catch (ActivityNotFoundException ignore) {
                 callbackError();
             }
-
-        }
-
-    }
-
-    private Uri getFileUri(@NonNull Context context, @NonNull File file) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            String authorities = SelectorOptions.getInstance().getAuthorities();
-            // 如果使用方未设置fileProvider 提供默认的fileProvider
-            if (authorities == null) {
-                authorities = context.getPackageName() + ".vmediaselector.file.provider";
-            }
-            return FileProvider.getUriForFile(context, authorities, mOutputFile);
-        } else {
-            return Uri.fromFile(file);
         }
     }
 
-    public String getSourceFilePath() {
-        return mSourceFilePath;
+    public File getOutputFile() {
+        return mOutputFile;
     }
 
     /**
@@ -283,7 +262,6 @@ public class CameraPickerHelper {
 
     private static class SavedState implements Parcelable {
         private File mOutputFile;
-        private String mSourceFilePath;
 
         SavedState() {
         }
@@ -296,12 +274,10 @@ public class CameraPickerHelper {
         @Override
         public void writeToParcel(Parcel dest, int flags) {
             dest.writeSerializable(this.mOutputFile);
-            dest.writeString(this.mSourceFilePath);
         }
 
-        SavedState(Parcel in) {
+        protected SavedState(Parcel in) {
             this.mOutputFile = (File) in.readSerializable();
-            this.mSourceFilePath = in.readString();
         }
 
         public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {

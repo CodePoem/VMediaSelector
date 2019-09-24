@@ -4,15 +4,13 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 
-import com.vdreamers.vmediaselector.core.scope.ImageType;
-import com.vdreamers.vmediaselector.core.scope.ImageTypeConstants;
+import com.vdreamers.vmediaselector.core.scope.ImageMimeType;
+import com.vdreamers.vmediaselector.core.scope.ImageMimeTypeConstants;
 import com.vdreamers.vmediaselector.core.scope.MediaType;
 import com.vdreamers.vmediaselector.core.scope.MediaTypeConstants;
 
 import java.io.File;
-import java.util.UUID;
 
 
 /**
@@ -38,13 +36,9 @@ public class ImageMediaEntity extends MediaEntity implements Parcelable {
      */
     private int mWidth;
     /**
-     * 图片类型
-     */
-    @ImageType
-    private int mImageType;
-    /**
      * 媒体类型
      */
+    @ImageMimeType
     private String mMimeType;
     /**
      * Gif最大尺寸
@@ -58,9 +52,9 @@ public class ImageMediaEntity extends MediaEntity implements Parcelable {
     public ImageMediaEntity() {
     }
 
-    public ImageMediaEntity(@NonNull File file) {
-        this.mId = UUID.randomUUID().toString();
-        this.mUri = Uri.parse(file.toURI().toString());
+    public ImageMediaEntity(@NonNull File file, Uri uri) {
+        this.mTitle = file.getName();
+        this.mUri = uri;
         this.mSize = String.valueOf(file.length());
         this.mIsSelected = true;
     }
@@ -96,36 +90,13 @@ public class ImageMediaEntity extends MediaEntity implements Parcelable {
         return this;
     }
 
-    public int getImageType() {
-        return mImageType;
-    }
-
-    public ImageMediaEntity setImageType(@ImageType int imageType) {
-        mImageType = imageType;
-        return this;
-    }
-
     public String getMimeType() {
         return mMimeType;
     }
 
-    public ImageMediaEntity setMimeType(String mimeType) {
+    public ImageMediaEntity setMimeType(@ImageMimeType String mimeType) {
         mMimeType = mimeType;
-        setImageType(getImageTypeByMime(mimeType));
         return this;
-    }
-
-    public int getImageTypeByMime(String mimeType) {
-        if (!TextUtils.isEmpty(mimeType)) {
-            if ("image/gif".equals(mimeType)) {
-                return ImageTypeConstants.IMAGE_TYPE_GIF;
-            } else if ("image/png".equals(mimeType)) {
-                return ImageTypeConstants.IMAGE_TYPE_PNG;
-            } else {
-                return ImageTypeConstants.IMAGE_TYPE_JPG;
-            }
-        }
-        return ImageTypeConstants.IMAGE_TYPE_PNG;
     }
 
     @Override
@@ -141,8 +112,14 @@ public class ImageMediaEntity extends MediaEntity implements Parcelable {
     }
 
     @Override
-    public ImageMediaEntity setId(String id) {
+    public ImageMediaEntity setId(long id) {
         mId = id;
+        return this;
+    }
+
+    @Override
+    public ImageMediaEntity setTitle(String title) {
+        mTitle = title;
         return this;
     }
 
@@ -153,15 +130,15 @@ public class ImageMediaEntity extends MediaEntity implements Parcelable {
     }
 
     public boolean isPng() {
-        return getImageType() == ImageTypeConstants.IMAGE_TYPE_PNG;
+        return ImageMimeTypeConstants.IMAGE_PNG.equals(getMimeType());
     }
 
     public boolean isJpg() {
-        return getImageType() == ImageTypeConstants.IMAGE_TYPE_JPG;
+        return ImageMimeTypeConstants.IMAGE_JPG.equals(getMimeType()) || ImageMimeTypeConstants.IMAGE_JPEG.equals(getMimeType());
     }
 
     public boolean isGif() {
-        return getImageType() == ImageTypeConstants.IMAGE_TYPE_GIF;
+        return ImageMimeTypeConstants.IMAGE_GIF.equals(getMimeType());
     }
 
     public boolean isGifOverSize() {
@@ -172,13 +149,15 @@ public class ImageMediaEntity extends MediaEntity implements Parcelable {
     public String toString() {
         return "ImageMediaEntity{" +
                 ", mSize='" + mSize + '\'' +
-                ", mHeight=" + mHeight +
-                ", mWidth=" + mWidth;
+                ", mHeight=" + mHeight + '\'' +
+                ", mWidth=" + mWidth + "}";
     }
 
     @Override
     public int hashCode() {
-        return mId.hashCode();
+        int result = 1;
+        result = 31 * result + Long.valueOf(mId).hashCode();
+        return result;
     }
 
 
@@ -194,7 +173,7 @@ public class ImageMediaEntity extends MediaEntity implements Parcelable {
             return false;
         }
         final ImageMediaEntity other = (ImageMediaEntity) obj;
-        return !(TextUtils.isEmpty(mId) || TextUtils.isEmpty(other.mId)) && this.mId.equals(other.mId);
+        return this.mId == other.mId;
     }
 
     @Override
@@ -208,7 +187,6 @@ public class ImageMediaEntity extends MediaEntity implements Parcelable {
         dest.writeParcelable(this.mThumbnailUri, flags);
         dest.writeInt(this.mHeight);
         dest.writeInt(this.mWidth);
-        dest.writeInt(this.mImageType);
         dest.writeString(this.mMimeType);
     }
 
@@ -217,7 +195,6 @@ public class ImageMediaEntity extends MediaEntity implements Parcelable {
         this.mThumbnailUri = in.readParcelable(Uri.class.getClassLoader());
         this.mHeight = in.readInt();
         this.mWidth = in.readInt();
-        this.mImageType = in.readInt();
         this.mMimeType = in.readString();
     }
 

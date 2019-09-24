@@ -19,10 +19,6 @@ import com.vdreamers.vmediaselector.core.scope.MediaTypeConstants;
 public class VideoMediaEntity extends MediaEntity implements Parcelable {
 
     /**
-     * 标题
-     */
-    private String mTitle;
-    /**
      * 时长
      */
     private String mDuration;
@@ -44,15 +40,6 @@ public class VideoMediaEntity extends MediaEntity implements Parcelable {
 
     public static VideoMediaEntity of() {
         return new VideoMediaEntity();
-    }
-
-    public String getTitle() {
-        return mTitle;
-    }
-
-    public VideoMediaEntity setTitle(String title) {
-        mTitle = title;
-        return this;
     }
 
     public String getDuration() {
@@ -100,8 +87,14 @@ public class VideoMediaEntity extends MediaEntity implements Parcelable {
     }
 
     @Override
-    public VideoMediaEntity setId(String id) {
+    public VideoMediaEntity setId(long id) {
         mId = id;
+        return this;
+    }
+
+    @Override
+    public VideoMediaEntity setTitle(String title) {
+        mTitle = title;
         return this;
     }
 
@@ -119,7 +112,6 @@ public class VideoMediaEntity extends MediaEntity implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeString(this.mTitle);
         dest.writeString(this.mDuration);
         dest.writeString(this.mDateTaken);
         dest.writeString(this.mMimeType);
@@ -127,7 +119,6 @@ public class VideoMediaEntity extends MediaEntity implements Parcelable {
 
     protected VideoMediaEntity(Parcel in) {
         super(in);
-        this.mTitle = in.readString();
         this.mDuration = in.readString();
         this.mDateTaken = in.readString();
         this.mMimeType = in.readString();
