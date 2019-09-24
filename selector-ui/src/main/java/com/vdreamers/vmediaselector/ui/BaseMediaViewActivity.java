@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.vdreamers.vmediaselector.core.contract.SelectorContract;
 import com.vdreamers.vmediaselector.core.entity.AlbumEntity;
 import com.vdreamers.vmediaselector.core.entity.MediaEntity;
-import com.vdreamers.vmediaselector.core.loader.IMediaCallback;
 import com.vdreamers.vmediaselector.core.loader.MediaLoader;
 import com.vdreamers.vmediaselector.core.option.SelectorOptions;
 import com.vdreamers.vmediaselector.core.selector.MediaSelector;
@@ -31,7 +30,7 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 public abstract class BaseMediaViewActivity extends AppCompatActivity implements SelectorContract.View {
-    ArrayList<MediaEntity> mSelectedImages;
+    ArrayList<MediaEntity> mSelectedMedias;
     String mAlbumId;
     int mStartPos;
 
@@ -73,13 +72,13 @@ public abstract class BaseMediaViewActivity extends AppCompatActivity implements
 
     private void parseSelectedMedias(Bundle savedInstanceState, Intent intent) {
         if (savedInstanceState != null) {
-            mSelectedImages =
+            mSelectedMedias =
                     savedInstanceState.getParcelableArrayList(MediaSelector.EXTRA_SELECTED_MEDIA);
             mAlbumId = savedInstanceState.getString(MediaSelector.EXTRA_ALBUM_ID);
             mStartPos = savedInstanceState.getInt(MediaSelector.EXTRA_START_POS, 0);
         } else if (intent != null) {
             mStartPos = intent.getIntExtra(MediaSelector.EXTRA_START_POS, 0);
-            mSelectedImages =
+            mSelectedMedias =
                     intent.getParcelableArrayListExtra(MediaSelector.EXTRA_SELECTED_MEDIA);
             mAlbumId = intent.getStringExtra(MediaSelector.EXTRA_ALBUM_ID);
         }
@@ -108,8 +107,8 @@ public abstract class BaseMediaViewActivity extends AppCompatActivity implements
     }
 
     public final void loadRawImage(@NonNull ImageView img, @NonNull MediaEntity media, int width,
-                                   int height, IMediaCallback callback) {
-        MediaLoader.getInstance().displayRaw(img, media, width, height, callback);
+                                   int height) {
+        MediaLoader.getInstance().displayRaw(img, media, width, height);
     }
 
     /**
@@ -169,15 +168,15 @@ public abstract class BaseMediaViewActivity extends AppCompatActivity implements
     public final int getMaxCount() {
         SelectorOptions options = SelectorOptions.getInstance();
         if (options == null) {
-            return SelectorOptions.DEFAULT_MAX_SELECT_NUM;
+            return SelectorOptions.DEFAULT_MULTI_MAX_NUM;
         }
-        return options.getMaxSelectNum();
+        return options.getMultiMaxNum();
     }
 
     @NonNull
-    public final ArrayList<MediaEntity> getSelectedImages() {
-        if (mSelectedImages != null) {
-            return mSelectedImages;
+    public final ArrayList<MediaEntity> getSelectedMedias() {
+        if (mSelectedMedias != null) {
+            return mSelectedMedias;
         }
         return new ArrayList<>();
     }

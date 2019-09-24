@@ -1,5 +1,6 @@
 package com.vdreamers.vmediaselector.obtain;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -18,9 +19,9 @@ public interface ObtainListener {
     /**
      * 获取成功回调
      *
-     * @param obtainFilePathList 获取的文件路径列表
+     * @param obtainFiles 获取的文件列表
      */
-    void onSuccess(List<String> obtainFilePathList);
+    void onSuccess(List<File> obtainFiles);
 
     /**
      * 获取失败回调

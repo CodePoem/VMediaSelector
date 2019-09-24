@@ -1,7 +1,5 @@
 package com.vdreamers.vmediaselector.sample;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,15 +12,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.vdreamers.vmediaselector.MediaSelectFilesCallback;
 import com.vdreamers.vmediaselector.MediaSelectorUtils;
-import com.vdreamers.vmediaselector.core.callback.MediaSelectCallback;
-import com.vdreamers.vmediaselector.core.entity.MediaEntity;
-import com.vdreamers.vmediaselector.obtain.ImageObtainUtils;
-import com.vdreamers.vmediaselector.obtain.ObtainListener;
 import com.vdreamers.vmediaselector.sample.adapter.MediaGridInset;
 import com.vdreamers.vmediaselector.sample.adapter.MediaSelectResultsAdapter;
 import com.vdreamers.vmediaselector.sample.custom.DefaultMediaSelectorImpl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,14 +33,14 @@ public class SampleActivity extends AppCompatActivity {
 
     private TextView mTvPath;
 
+    private RadioGroup mRgType;
     private RadioGroup mRgNeedCamera;
     private RadioGroup mRgMultiSelectable;
 
     private RecyclerView mRecyclerView;
     private MediaSelectResultsAdapter mAdapter;
-    private ArrayList<Uri> mMediaUriList;
     private ArrayList<String> mMediaPathList;
-    private ArrayList<MediaEntity> mMediaEntities;
+    private ArrayList<Uri> mMediaUris;
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -56,15 +52,21 @@ public class SampleActivity extends AppCompatActivity {
         findViewById(R.id.btn_select).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectImage();
+                if (mRgType.getCheckedRadioButtonId() == R.id.rb_image) {
+                    selectImage();
+                } else {
+                    selectVideo();
+                }
             }
         });
 
         mTvPath = findViewById(R.id.tv_path);
 
+        mRgType = findViewById(R.id.rg_type);
         mRgNeedCamera = findViewById(R.id.rg_need_camera);
         mRgMultiSelectable = findViewById(R.id.rg_multi_selectable);
 
+        mRgType.check(R.id.rb_image);
         mRgNeedCamera.check(R.id.rb_need_camera);
         mRgMultiSelectable.check(R.id.rb_multi_select);
 
@@ -73,11 +75,8 @@ public class SampleActivity extends AppCompatActivity {
         mAdapter.setItemDeleteListener(new MediaSelectResultsAdapter.ItemDeleteListener() {
             @Override
             public void onDelete(int position) {
-                if (mMediaEntities != null) {
-                    mMediaEntities.remove(position);
-                }
-                if (mMediaUriList != null) {
-                    mMediaUriList.remove(position);
+                if (mMediaUris != null) {
+                    mMediaUris.remove(position);
                 }
                 if (mMediaPathList != null) {
                     mMediaPathList.remove(position);
@@ -102,67 +101,59 @@ public class SampleActivity extends AppCompatActivity {
     private void selectImage() {
         MediaSelectorUtils.of(new DefaultMediaSelectorImpl())
                 .setNeedCamera(mRgNeedCamera.getCheckedRadioButtonId() == R.id.rb_need_camera)
-                .setImageMultiSelected(mRgMultiSelectable.getCheckedRadioButtonId() == R.id.rb_multi_select)
-                .selectImage(SampleActivity.this, new MediaSelectCallback() {
+                .setMultiSelectable(mRgMultiSelectable.getCheckedRadioButtonId() == R.id.rb_multi_select)
+                .setNeedGif(true)
+                .selectImage(SampleActivity.this, mMediaUris, new MediaSelectFilesCallback() {
                     @Override
-                    public void onMediaSelectSuccess(int resultCode, Intent data,
-                                                     List<MediaEntity> medias) {
+                    public void onSuccess(int resultCode, Intent data, List<Uri> uris,
+                                          List<File> files) {
                         if (mAdapter == null || mRecyclerView == null) {
                             return;
                         }
-                        mMediaEntities = (ArrayList<MediaEntity>) medias;
-                        List<Uri> mediaUriList = getUriListFromMediaList(medias);
-                        mMediaUriList = (ArrayList<Uri>) mediaUriList;
-                        obtainPathListFromUriList(SampleActivity.this, mediaUriList);
+                        if (mMediaPathList == null) {
+                            mMediaPathList = new ArrayList<>();
+                        }
+                        mMediaPathList.clear();
+                        for (File file : files) {
+                            mMediaPathList.add(file.getAbsolutePath());
+                        }
+                        mMediaUris = (ArrayList<Uri>) uris;
+                        mAdapter.setList(mMediaPathList);
                     }
 
                     @Override
-                    public void onMediaSelectError(Throwable mediaSelectError) {
+                    public void onFailed(Throwable mediaSelectError) {
 
                     }
-                }, mMediaEntities);
+                });
     }
 
-    private List<Uri> getUriListFromMediaList(List<MediaEntity> medias) {
-        List<Uri> mediaUriList = new ArrayList<>();
-        if (medias != null) {
-            for (MediaEntity media : medias) {
-                if (media == null) {
-                    continue;
-                }
-                mediaUriList.add(media.getUri());
-            }
-        }
-        return mediaUriList;
-    }
-
-    private void obtainPathListFromUriList(final Context context, final List<Uri> mediaUriList) {
-        final ProgressDialog[] progressDialog = new ProgressDialog[1];
-        ImageObtainUtils.of()
-                .setCallback(new ObtainListener() {
+    private void selectVideo() {
+        MediaSelectorUtils.of(new DefaultMediaSelectorImpl())
+                .setNeedCamera(mRgNeedCamera.getCheckedRadioButtonId() == R.id.rb_need_camera)
+                .setMultiSelectable(mRgMultiSelectable.getCheckedRadioButtonId() == R.id.rb_multi_select)
+                .selectVideo(SampleActivity.this, new MediaSelectFilesCallback() {
                     @Override
-                    public void onStart() {
-                        if (context != null && progressDialog[0] == null) {
-                            progressDialog[0] = ProgressDialog.show(context, "",
-                                    context.getString(R.string.text_tip_obtain_ing));
+                    public void onSuccess(int resultCode, Intent data, List<Uri> uris,
+                                          List<File> files) {
+                        if (mAdapter == null || mRecyclerView == null) {
+                            return;
                         }
+                        if (mMediaPathList == null) {
+                            mMediaPathList = new ArrayList<>();
+                        }
+                        mMediaPathList.clear();
+                        for (File file : files) {
+                            mMediaPathList.add(file.getAbsolutePath());
+                        }
+                        mMediaUris = (ArrayList<Uri>) uris;
+                        mAdapter.setList(mMediaPathList);
                     }
 
                     @Override
-                    public void onSuccess(List<String> obtainFilePathList) {
-                        if (progressDialog[0] != null) {
-                            progressDialog[0].dismiss();
-                        }
-                        mAdapter.setList(obtainFilePathList);
-                        mMediaPathList = (ArrayList<String>) obtainFilePathList;
-                    }
+                    public void onFailed(Throwable mediaSelectError) {
 
-                    @Override
-                    public void onFailed(Throwable throwable) {
-                        if (progressDialog[0] != null) {
-                            progressDialog[0].dismiss();
-                        }
                     }
-                }).obtain(context, mediaUriList);
+                });
     }
 }

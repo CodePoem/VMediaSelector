@@ -35,7 +35,8 @@ public class MediaSelectResultsAdapter extends RecyclerView.Adapter {
         this(null, recyclerView);
     }
 
-    public MediaSelectResultsAdapter(ItemDeleteListener itemDeleteListener, RecyclerView recyclerView) {
+    public MediaSelectResultsAdapter(ItemDeleteListener itemDeleteListener,
+                                     RecyclerView recyclerView) {
         mList = new ArrayList<>();
         mItemDeleteListener = itemDeleteListener;
         mRecyclerView = recyclerView;
@@ -75,7 +76,8 @@ public class MediaSelectResultsAdapter extends RecyclerView.Adapter {
             Glide.with(mediaViewHolder.mImageView)
                     .load(path)
                     .placeholder(R.drawable.v_selector_ui_impl_ic_broken_image)
-                    .override(getImageResize(mediaViewHolder.mImageView.getContext()), getImageResize(mediaViewHolder.mImageView.getContext()))
+                    .override(getImageResize(mediaViewHolder.mImageView.getContext()),
+                            getImageResize(mediaViewHolder.mImageView.getContext()))
                     .centerCrop()
                     .into(mediaViewHolder.mImageView);
 

@@ -18,8 +18,8 @@ import java.util.ArrayList;
  * 连接视图层和逻辑层的基类Activity
  * 子类必须实现onCreateMediaView方法创建一个视图层
  * A abstract class to connect
- * {@link com.vdreamers.vmediaselector.core.contract.SelectorContract.View} and
- * {@link com.vdreamers.vmediaselector.core.contract.SelectorContract.Presenter}.
+ * {@link SelectorContract.View} and
+ * {@link SelectorContract.Presenter}.
  * one job has to be done. override {@link #onCreateMediaView(ArrayList)} to create a subclass
  * for {@link BaseMediaViewFragment}.
  * <p>

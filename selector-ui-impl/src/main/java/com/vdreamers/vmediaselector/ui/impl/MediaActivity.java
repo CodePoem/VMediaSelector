@@ -33,7 +33,7 @@ import java.util.List;
  * @author <a href="mailto:codepoetdream@gmail.com">Mr.D</a>
  */
 public class MediaActivity extends BaseMediaActivity {
-    private MediaViewFragment mPickerFragment;
+    private MediaFragment mPickerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +50,14 @@ public class MediaActivity extends BaseMediaActivity {
 
     @NonNull
     @Override
-    public MediaViewFragment onCreateMediaView(ArrayList<MediaEntity> medias) {
+    public MediaFragment onCreateMediaView(ArrayList<MediaEntity> medias) {
         mPickerFragment =
-                (MediaViewFragment) getSupportFragmentManager().findFragmentByTag(MediaViewFragment.TAG);
+                (MediaFragment) getSupportFragmentManager().findFragmentByTag(MediaFragment.TAG);
         if (mPickerFragment == null) {
             mPickerFragment =
-                    (MediaViewFragment) MediaViewFragment.newInstance().setSelectedBundle(medias);
+                    (MediaFragment) MediaFragment.newInstance().setSelectedBundle(medias);
             getSupportFragmentManager().beginTransaction().replace(R.id.content_layout,
-                    mPickerFragment, MediaViewFragment.TAG).commit();
+                    mPickerFragment, MediaFragment.TAG).commit();
         }
         return mPickerFragment;
     }

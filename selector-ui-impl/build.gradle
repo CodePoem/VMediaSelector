@@ -26,13 +26,13 @@ dependencies {
     androidTestImplementation rootProject.ext.testDependencies['androidxTestExtJunit']
     androidTestImplementation rootProject.ext.testDependencies['androidxTestEspressoCore']
 
-    implementation rootProject.ext.dependencies['androidxAppcompat']
-    implementation rootProject.ext.dependencies['androidxRecyclerView']
+    compileOnly rootProject.ext.dependencies['androidxAppcompat']
+    compileOnly rootProject.ext.dependencies['androidxRecyclerView']
 
     api project(":selector-ui")
     api project(":selector-core-impl")
 
-    implementation('com.github.chrisbanes:PhotoView:2.0.0')
+    implementation 'it.sephiroth.android.library.imagezoom:library:1.0.4'
 }
 
 apply from: "$rootProject.projectDir/uploadBintray.gradle"

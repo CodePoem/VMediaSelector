@@ -69,7 +69,7 @@ dependencies {
     implementation rootProject.ext.dependencies['androidxConstraintLayout']
     implementation rootProject.ext.dependencies['androidxRecyclerView']
 
-    api project(':v-media-selector')
+    implementation project(':v-media-selector')
 
     implementation rootProject.ext.dependencies['glide']
 }

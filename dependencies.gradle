@@ -8,7 +8,7 @@ def androidxRecyclerViewVer = "1.0.0"
 def androidxConstraintLayoutVer = "1.1.3"
 
 def vOnResultVer = "1.0.2"
-def VMediaSelectorVer = "1.0.4"
+def VMediaSelectorVer = "1.1.2"
 
 def glideVer = "4.9.0"
 

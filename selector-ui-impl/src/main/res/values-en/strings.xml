@@ -8,7 +8,6 @@
     <string name="v_selector_ui_impl_image_select_ok_fmt">(%1$s/%2$s) OK</string>
     <string name="v_selector_ui_impl_album_images_fmt">(%d)</string>
 
-    <string name="v_selector_ui_impl_max_image_over_fmt">%d picture is limited</string>
     <string name="v_selector_ui_impl_gif_too_big">the gif is too big!</string>
     <string name="v_selector_ui_impl_pick_single_video">Pick a video</string>
     <string name="v_selector_ui_impl_pick_multi_image">Pick pictures</string>
@@ -27,6 +26,11 @@
     <string name="v_selector_ui_impl_default_album">Pictures</string>
     <string name="v_selector_ui_impl_nothing_found">nothing!</string>
     <string name="v_selector_ui_impl_too_many_picture_fmt">You can only select up to %d pictures</string>
+    <string name="v_selector_ui_impl_too_many_video_fmt">You can only select up to %d videos</string>
     <string name="v_selector_ui_impl_default_album_name">Pictures</string>
     <string name="v_selector_ui_impl_preview">Preview</string>
+    <string name="v_selector_ui_impl_error_no_video_activity">No App found supporting video preview</string>
+    <string name="v_selector_ui_impl_png">PNG</string>
+    <string name="v_selector_ui_impl_jpg">JPG</string>
+    <string name="v_selector_ui_impl_gif">GIF</string>
 </resources>

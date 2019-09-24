@@ -35,7 +35,7 @@ public class MediaItemLayout extends FrameLayout {
     private static final int BIG_IMG_SIZE = 5 * 1024 * 1024;
 
     private ImageView mCheckImg;
-    private View mVideoLayout;
+    private View mBottomInfoLayout;
     private View mFontLayout;
     private ImageView mCoverImg;
     private ScreenType mScreenType;
@@ -65,10 +65,10 @@ public class MediaItemLayout extends FrameLayout {
         super(context, attrs, defStyleAttr);
         View view =
                 LayoutInflater.from(context).inflate(R.layout.v_selector_ui_impl_layout_media_item, this,
-                true);
+                        true);
         mCoverImg = (ImageView) view.findViewById(R.id.media_item);
         mCheckImg = (ImageView) view.findViewById(R.id.media_item_check);
-        mVideoLayout = view.findViewById(R.id.video_layout);
+        mBottomInfoLayout = view.findViewById(R.id.layout_bottom_info);
         mFontLayout = view.findViewById(R.id.media_font_layout);
         mScreenType = getScreenType(context);
         setImageRect(context);
@@ -115,18 +115,29 @@ public class MediaItemLayout extends FrameLayout {
     }
 
     public void setMedia(MediaEntity media) {
+        TextView tvMediaInfo = mBottomInfoLayout.findViewById(R.id.tv_media_info);
+        ((TextView) mBottomInfoLayout.findViewById(R.id.tv_media_size)).setText(media.getSizeByUnit());
         if (media instanceof ImageMediaEntity) {
-            mVideoLayout.setVisibility(GONE);
-            setCover(((ImageMediaEntity) media));
+            ImageMediaEntity imageMediaEntity = (ImageMediaEntity) media;
+            tvMediaInfo.setText(getImageType(imageMediaEntity));
+            setCover(media);
         } else if (media instanceof VideoMediaEntity) {
-            mVideoLayout.setVisibility(VISIBLE);
             VideoMediaEntity videoMedia = (VideoMediaEntity) media;
-            TextView durationTxt = ((TextView) mVideoLayout.findViewById(R.id.video_duration_txt));
-            durationTxt.setText(videoMedia.getDuration());
-            durationTxt.setCompoundDrawablesWithIntrinsicBounds(SelectorOptions.getInstance().getVideoDurationRes(), 0, 0, 0);
-            ((TextView) mVideoLayout.findViewById(R.id.video_size_txt)).setText(videoMedia.getSizeByUnit());
+            tvMediaInfo.setText(videoMedia.getDuration());
+            tvMediaInfo.setCompoundDrawablesWithIntrinsicBounds(SelectorOptions.getInstance().getVideoDurationRes(), 0, 0, 0);
             setCover(videoMedia);
         }
+    }
+
+    private CharSequence getImageType(ImageMediaEntity imageMediaEntity) {
+        if (imageMediaEntity.isPng()) {
+            return getContext().getString(R.string.v_selector_ui_impl_png);
+        } else if (imageMediaEntity.isJpg()) {
+            return getContext().getString(R.string.v_selector_ui_impl_jpg);
+        } else if (imageMediaEntity.isGif()) {
+            return getContext().getString(R.string.v_selector_ui_impl_gif);
+        }
+        return "";
     }
 
     private void setCover(@NonNull MediaEntity imageMedia) {

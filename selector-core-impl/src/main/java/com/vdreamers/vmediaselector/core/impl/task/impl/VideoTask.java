@@ -61,9 +61,9 @@ public class VideoTask implements IMediaTask<VideoMediaEntity> {
             if (cursor != null && cursor.moveToFirst()) {
                 count = cursor.getCount();
                 do {
-                    String id = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media._ID));
+                    long id = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media._ID));
                     // Uri
-                    Uri uri = ContentUris.withAppendedId(QUERY_URI, Long.parseLong(id));
+                    Uri uri = ContentUris.withAppendedId(QUERY_URI, id);
                     String title =
                             cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.TITLE));
                     String type =

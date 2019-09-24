@@ -3,18 +3,16 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent">
 
-    <com.github.chrisbanes.photoview.PhotoView
-        android:id="@+id/photo_view"
+    <it.sephiroth.android.library.imagezoom.ImageViewTouch
+        android:id="@+id/iv_previw"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_margin="@dimen/v_selector_ui_impl_item_half_spacing"/>
+        android:layout_height="match_parent"/>
 
-    <ProgressBar
-        android:id="@+id/loading"
-        style="?android:attr/progressBarStyleLarge"
+    <ImageView
+        android:id="@+id/iv_video_play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:indeterminate="true"/>
+        android:src="@drawable/ic_action_play"/>
+
 </FrameLayout>

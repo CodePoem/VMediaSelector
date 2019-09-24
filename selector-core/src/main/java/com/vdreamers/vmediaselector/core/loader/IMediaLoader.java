@@ -36,8 +36,6 @@ public interface IMediaLoader {
      * @param media    the image media to display, may be out of date when fast scrolling.
      * @param width    the expected width, 0 means the raw width.
      * @param height   the expected height, 0 means the raw height.
-     * @param callback the callback for the load result.
      */
-    void displayRaw(@NonNull ImageView img, @NonNull MediaEntity media, int width, int height,
-                    IMediaCallback callback);
+    void displayRaw(@NonNull ImageView img, @NonNull MediaEntity media, int width, int height);
 }

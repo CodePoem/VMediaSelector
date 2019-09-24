@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -21,7 +22,7 @@ import com.vdreamers.vmediaselector.core.entity.ImageMediaEntity;
 import com.vdreamers.vmediaselector.core.entity.MediaEntity;
 import com.vdreamers.vmediaselector.core.option.SelectorOptions;
 import com.vdreamers.vmediaselector.core.selector.MediaSelector;
-import com.vdreamers.vmediaselector.core.utils.ImageMediaSaveUtils;
+import com.vdreamers.vmediaselector.core.utils.ImageMediaStorageUtils;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -354,9 +355,9 @@ public abstract class BaseMediaViewFragment extends Fragment implements Selector
     public final int getMaxCount() {
         SelectorOptions selectorOptions = SelectorOptions.getInstance();
         if (selectorOptions == null) {
-            return SelectorOptions.DEFAULT_MAX_SELECT_NUM;
+            return SelectorOptions.DEFAULT_MULTI_MAX_NUM;
         }
-        return selectorOptions.getMaxSelectNum();
+        return selectorOptions.getMultiMaxNum();
     }
 
     /**
@@ -402,7 +403,14 @@ public abstract class BaseMediaViewFragment extends Fragment implements Selector
             if (fragment == null) {
                 return;
             }
-            File file = new File(helper.getSourceFilePath());
+
+            File file = helper.getOutputFile();
+            Uri uri;
+            if (fragment.getContext() != null) {
+                uri = FileProviderUtils.getFileUri(fragment.getContext(), file);
+            } else {
+                uri = Uri.parse(file.toURI().toString());
+            }
 
             if (!file.exists()) {
                 onError(helper);
@@ -412,8 +420,8 @@ public abstract class BaseMediaViewFragment extends Fragment implements Selector
 
             // 存储拍照后的照片到数据库
             if (SelectorOptions.getInstance().isStoreCameraImage()) {
-                cameraMedia = ImageMediaSaveUtils.saveMediaStore(fragment.getActivity(),
-                        fragment.getAppCr(), file);
+                cameraMedia = ImageMediaStorageUtils.saveMediaStore(fragment.getActivity(),
+                        fragment.getAppCr(), file, uri);
             }
 
             fragment.onCameraFinish(cameraMedia);

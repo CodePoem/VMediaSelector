@@ -25,9 +25,9 @@ dependencies {
     androidTestImplementation rootProject.ext.testDependencies['androidxTestExtJunit']
     androidTestImplementation rootProject.ext.testDependencies['androidxTestEspressoCore']
 
-    implementation rootProject.ext.dependencies['androidxAppcompat']
+    compileOnly rootProject.ext.dependencies['androidxAppcompat']
 
-    implementation project(":selector-ui-impl")
+    api project(":selector-ui-impl")
 }
 
 apply from: "$rootProject.projectDir/uploadBintray.gradle"

@@ -8,7 +8,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.vdreamers.vmediaselector.core.callback.MediaSelectCallback;
-import com.vdreamers.vmediaselector.core.callback.MediaSelectUriCallback;
 import com.vdreamers.vmediaselector.core.entity.MediaEntity;
 import com.vdreamers.vmediaselector.core.option.SelectorOptions;
 
@@ -196,46 +195,6 @@ public class MediaSelector {
         } else {
             MediaSelectOnResult.of(activity)
                     .start(mIntent, requestCode, mediaSelectCallback, this);
-        }
-    }
-
-    public void start(int requestCode, MediaSelectUriCallback mediaSelectUriCallback) {
-        start(requestCode, null, mediaSelectUriCallback);
-    }
-
-    public void start(int requestCode, ArrayList<? extends MediaEntity> medias,
-                      MediaSelectUriCallback mediaSelectUriCallback) {
-        start(requestCode, medias, -1, null, mediaSelectUriCallback);
-    }
-
-    public void start(int requestCode, ArrayList<? extends MediaEntity> medias, int pos,
-                      String albumId, MediaSelectUriCallback mediaSelectUriCallback) {
-        Activity activity = getActivity();
-        if (activity == null) {
-            return;
-        }
-        Fragment fragment = getFragment();
-        if (mIntent == null && mIMediaSelector != null) {
-            mIntent = mIMediaSelector.getIntent(activity, mSelectorOptions);
-        }
-        if (mIntent == null) {
-            return;
-        }
-        if (medias != null && !medias.isEmpty()) {
-            mIntent.putExtra(EXTRA_SELECTED_MEDIA, medias);
-        }
-        if (pos >= 0) {
-            mIntent.putExtra(EXTRA_START_POS, pos);
-        }
-        if (albumId != null) {
-            mIntent.putExtra(EXTRA_ALBUM_ID, albumId);
-        }
-        if (fragment != null) {
-            MediaSelectOnResult.of(fragment)
-                    .start(mIntent, requestCode, mediaSelectUriCallback, this);
-        } else {
-            MediaSelectOnResult.of(activity)
-                    .start(mIntent, requestCode, mediaSelectUriCallback, this);
         }
     }
 
