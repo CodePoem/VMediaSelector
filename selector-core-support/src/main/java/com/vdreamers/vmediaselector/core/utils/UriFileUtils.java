@@ -51,14 +51,14 @@ public class UriFileUtils {
             return null;
         }
         switch (scheme) {
-            case "content":
-                String fileName = getFileDisPlayName(context, uri);
+            case ContentResolver.SCHEME_CONTENT:
+                String fileName = getFileName(context.getContentResolver(), uri);
                 File file = getFileFromInputStreamUri(context, uri, fileName);
                 if (file == null) {
                     file = getFileFromContentUri(context, uri);
                 }
                 return file;
-            case "file":
+            case ContentResolver.SCHEME_FILE:
                 String path = uri.getPath();
                 if (path == null) {
                     return null;
@@ -147,24 +147,58 @@ public class UriFileUtils {
         return file;
     }
 
+
+    /**
+     * 获取文件名
+     *
+     * @param contentResolver 内容解析器
+     * @param uri             Uri
+     * @return 文件名
+     */
+    public static String getFileName(@NonNull ContentResolver contentResolver,
+                                     @NonNull Uri uri) {
+        String fileName = "Unknown";
+        if (uri.getScheme() != null) {
+            switch (uri.getScheme()) {
+                case ContentResolver.SCHEME_FILE:
+                    fileName = uri.getLastPathSegment();
+                    break;
+                case ContentResolver.SCHEME_CONTENT:
+                    fileName = getFileDisPlayName(contentResolver, uri);
+                    break;
+                default:
+                    break;
+            }
+        }
+        return fileName;
+    }
+
     /**
      * 获取文件展示名
      *
-     * @param context 调用方上下文
-     * @param uri     Uri
+     * @param contentResolver 内容解析器
+     * @param uri             Uri
      * @return 文件名展示名
      */
-    public static String getFileDisPlayName(@NonNull Context context, @NonNull Uri uri) {
-        ContentResolver contentResolver = context.getContentResolver();
+    public static String getFileDisPlayName(@NonNull ContentResolver contentResolver,
+                                            @NonNull Uri uri) {
+        String disPlayName = "Unknown";
         String[] queryColumn = {MediaStore.MediaColumns.DISPLAY_NAME};
-        Cursor cursor = contentResolver.query(uri, queryColumn, null,
-                null, null);
-        String fileName = "";
-        if (cursor != null && cursor.moveToFirst()) {
-            fileName = cursor.getString(cursor.getColumnIndex(queryColumn[0]));
-            cursor.close();
+        Cursor cursor = null;
+        try {
+            cursor = contentResolver.query(uri, queryColumn, null,
+                    null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                disPlayName = cursor.getString(cursor.getColumnIndex(queryColumn[0]));
+            }
+        } catch (Exception e) {
+            MediaSelectorLogUtils.d(e.getLocalizedMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
-        return fileName;
+        return disPlayName;
     }
 
     /**
