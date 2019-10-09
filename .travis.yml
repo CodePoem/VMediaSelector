@@ -13,13 +13,13 @@ android:
     - android-sdk-license-.+
     - google-gdk-license-.+
 script:
-  - sed -i "" "s#^android.useAndroidX=.*#android.useAndroidX=true#g" gradle.properties
-  - sed -i "" "s#^android.enableJetifier=.*#android.enableJetifier=true#g" gradle.properties
-  - sed -i "" "s#^IsSupport=.*#android.IsSupport=false#g" gradle.properties
+  - sed -i "s#^android.useAndroidX=.*#android.useAndroidX=true#g" gradle.properties
+  - sed -i "s#^android.enableJetifier=.*#android.enableJetifier=true#g" gradle.properties
+  - sed -i "s#^IsSupport=.*#android.IsSupport=false#g" gradle.properties
   - "./gradlew assembleRelease"
-  - sed -i "" "s#^android.useAndroidX=.*#android.useAndroidX=false#g" gradle.properties
-  - sed -i "" "s#^android.enableJetifier=.*#android.enableJetifier=false#g" gradle.properties
-  - sed -i "" "s#^IsSupport=.*#android.IsSupport=true#g" gradle.properties
+  - sed -i "s#^android.useAndroidX=.*#android.useAndroidX=false#g" gradle.properties
+  - sed -i "s#^android.enableJetifier=.*#android.enableJetifier=false#g" gradle.properties
+  - sed -i "s#^IsSupport=.*#android.IsSupport=true#g" gradle.properties
   - "./gradlew assembleRelease"
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -37,8 +37,10 @@ deploy:
   api_key:
     secure: ma4xB6B1fMiByH2bQIHeZp+AGIRmTVdfZBOjWDsR94uco3tlMF3vhON5PHKQbNemAfGlpzqghY6sMZCBvZooyeINKGD1+kuXX++4A2U4MhT9MB3R3Z/JrMnHWJr7Ro0LPkFQuRCNzsV9HA/A2b9CfMHh2nKnCL6JtRmiDGZDvyxoVvzTzXif3hgX2vNR0rdfit8+ta9NBpBQQ7ouDQQGBTy3U/JEdiO0cs2T/OupyEL3Ka2cfNico5hCuT46YvYLtQaObCKjk9ekZQeVrqUgBxczJ/SnaHTXn1n82xYANjgmHtOUndhFF3c3UMcbgBMM3u0fVqs7ylkRegXkQWGMECtJZ+X6phAfbnL6WA4Y0RGQtCxG2uV9WoJZyAlzrHDCMgftahEE9q2mviuGpFiRCjCP9Q9lqLswjNpkBZDl3EoBcNvwiv6ng/QLttMqub4WZjVtiYxLZPNb3m/OA03peYQJ2cF4L9QAEFWPvOZdd+xl4yHSJrHuEifK9vTlSdD7ulGJiGtDxEkSAi8zDRrgu3xItwJ6y4CHbdlhsgsy6n3BRMhlEXwHMGI41mC5qQSNPwFDDF6tewAwAl7wLzL8Fw8jrDdWRVmlPMhHEDtzAnxbTN29+RBrRJtWYuCwPfSrySTOceegKwil8GJhklqvkspRVBTuTaUL+NqENnIibwk=
   file:
-    - sample/build/outputs/apl/release/sample-release.apk
-    - sample-support/build/outputs/apl/release/sample-support-release.apk
+    - sample/build/outputs/apk/release/sample-release.apk
+    - sample-support/build/outputs/apk/release/sample-support-release.apk
+    - v-media-selector/build/outputs/aar/v-media-selector-release.aar
+    - v-media-selector-support/build/outputs/aar/v-media-selector-support-release.aar
   # 这句手动添加
   skip_cleanup: true
   on:
