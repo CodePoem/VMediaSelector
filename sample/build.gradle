@@ -1,22 +1,35 @@
 apply plugin: 'com.android.application'
 
-def keystoreFilepath = ''
 def keystorePWD = ''
 def keystoreAlias = ''
 def keystoreAliasPWD = ''
-// default keystore file, PLZ config file path in local.properties
-def keyfile = file('s.keystore.temp')
+// local.properties file in the root director
+def keyFile = project.rootProject.file('local.properties')
 
 Properties properties = new Properties()
-// local.properties file in the root director
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-keystoreFilepath = properties.getProperty("keystore.path")
+// local.properties exists
+if (keyFile.exists()) {
+    properties.load(keyFile.newDataInputStream())
+} else {
+    keyFile = file("../no_exists_keystore.tmp")
+}
 
-if (keystoreFilepath) {
+// local.properties contains keystore.path
+if (properties.containsKey("keystore.path")) {
+    keyFile = file(properties.getProperty("keystore.path"))
     keystorePWD = properties.getProperty("keystore.password")
     keystoreAlias = properties.getProperty("keystore.alias")
     keystoreAliasPWD = properties.getProperty("keystore.alias_password")
-    keyfile = file(keystoreFilepath)
+} else {
+    keyFile = file("../no_exists_keystore.tmp")
+}
+
+def isRunningOnTravis = System.getenv("CI") == "true"
+if (isRunningOnTravis) {
+    keyFile = file("../mrd@vdreamers")
+    keystorePWD = System.getenv("KEYSTORE_PWD")
+    keystoreAlias = System.getenv("KEYSTORE_ALIAS")
+    keystoreAliasPWD = System.getenv("KEYSTORE_ALIAS_PWD")
 }
 
 android {
@@ -33,7 +46,7 @@ android {
         release {
             keyAlias keystoreAlias
             keyPassword keystoreAliasPWD
-            storeFile keyfile
+            storeFile keyFile
             storePassword keystorePWD
         }
     }
@@ -47,7 +60,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             // 签名文件存在，则签名
-            if (keyfile.exists()) {
+            if (keyFile.exists()) {
                 println("WITH -> buildTypes -> release: using jks key")
                 signingConfig signingConfigs.release
             } else {
