@@ -15,11 +15,11 @@ android:
 script:
   - sed -i "s#^android.useAndroidX=.*#android.useAndroidX=true#g" gradle.properties
   - sed -i "s#^android.enableJetifier=.*#android.enableJetifier=true#g" gradle.properties
-  - sed -i "s#^IsSupport=.*#android.IsSupport=false#g" gradle.properties
+  - sed -i "s#^IsSupport=.*#IsSupport=false#g" gradle.properties
   - "./gradlew assembleRelease"
   - sed -i "s#^android.useAndroidX=.*#android.useAndroidX=false#g" gradle.properties
   - sed -i "s#^android.enableJetifier=.*#android.enableJetifier=false#g" gradle.properties
-  - sed -i "s#^IsSupport=.*#android.IsSupport=true#g" gradle.properties
+  - sed -i "s#^IsSupport=.*#IsSupport=true#g" gradle.properties
   - "./gradlew assembleRelease"
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
