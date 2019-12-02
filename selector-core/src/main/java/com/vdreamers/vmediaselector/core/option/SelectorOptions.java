@@ -43,6 +43,10 @@ public class SelectorOptions implements Parcelable {
      */
     private boolean mNeedGif = DEFAULT_NEED_GIF;
     /**
+     * Gif最大尺寸 byte数
+     */
+    private long mMaxGifSize = DEFAULT_MAX_GIF_SIZE;
+    /**
      * 是否需要分页
      */
     private boolean mNeedPaging = DEFAULT_NEED_PAGING;
@@ -74,6 +78,10 @@ public class SelectorOptions implements Parcelable {
      * 默认支持Gif
      */
     public static final boolean DEFAULT_NEED_GIF = true;
+    /**
+     * 默认Gif最大尺寸 单位MB byte数
+     */
+    public static final long DEFAULT_MAX_GIF_SIZE = 1024 * 1024L;
     /**
      * 默认分页
      */
@@ -137,6 +145,7 @@ public class SelectorOptions implements Parcelable {
         mMultiMaxNum = DEFAULT_MULTI_MAX_NUM;
         mNeedCamera = false;
         mNeedGif = false;
+        mMaxGifSize = DEFAULT_MAX_GIF_SIZE;
         mNeedPaging = true;
     }
 
@@ -177,6 +186,15 @@ public class SelectorOptions implements Parcelable {
 
     public SelectorOptions setNeedGif(boolean needGif) {
         mNeedGif = needGif;
+        return this;
+    }
+
+    public long getMaxGifSize() {
+        return mMaxGifSize;
+    }
+
+    public SelectorOptions setMaxGifSize(long maxGifSize) {
+        mMaxGifSize = maxGifSize;
         return this;
     }
 
@@ -324,6 +342,7 @@ public class SelectorOptions implements Parcelable {
         dest.writeInt(this.mMultiMaxNum);
         dest.writeByte(this.mNeedCamera ? (byte) 1 : (byte) 0);
         dest.writeByte(this.mNeedGif ? (byte) 1 : (byte) 0);
+        dest.writeLong(this.mMaxGifSize);
         dest.writeByte(this.mNeedPaging ? (byte) 1 : (byte) 0);
         dest.writeByte(this.mStoreCameraImage ? (byte) 1 : (byte) 0);
         dest.writeString(this.mAuthorities);
@@ -343,6 +362,7 @@ public class SelectorOptions implements Parcelable {
         this.mMultiMaxNum = in.readInt();
         this.mNeedCamera = in.readByte() != 0;
         this.mNeedGif = in.readByte() != 0;
+        this.mMaxGifSize = in.readLong();
         this.mNeedPaging = in.readByte() != 0;
         this.mStoreCameraImage = in.readByte() != 0;
         this.mAuthorities = in.readString();

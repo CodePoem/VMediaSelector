@@ -616,7 +616,7 @@ public class MediaFragment extends BaseMediaViewFragment implements View.OnClick
                         return;
                     }
                     if (!selectedMedias.contains(photoMedia)) {
-                        if (photoMedia.isGifOverSize()) {
+                        if (photoMedia.isGif() && photoMedia.getSize() > SelectorOptions.getInstance().getMaxGifSize()) {
                             Toast.makeText(getActivity(), R.string.v_selector_ui_impl_gif_too_big,
                                     Toast.LENGTH_SHORT).show();
                             return;

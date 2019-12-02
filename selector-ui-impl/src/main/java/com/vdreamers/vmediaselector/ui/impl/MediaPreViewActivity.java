@@ -205,7 +205,7 @@ public class MediaPreViewActivity extends BaseMediaViewActivity {
                     cancelMedia();
                 } else {
                     if (!mSelectedMedias.contains(photoMedia)) {
-                        if (photoMedia.isGifOverSize()) {
+                        if (photoMedia.isGif() && photoMedia.getSize() > SelectorOptions.getInstance().getMaxGifSize()) {
                             Toast.makeText(getApplicationContext(),
                                     R.string.v_selector_ui_impl_gif_too_big, Toast.LENGTH_SHORT).show();
                             return true;

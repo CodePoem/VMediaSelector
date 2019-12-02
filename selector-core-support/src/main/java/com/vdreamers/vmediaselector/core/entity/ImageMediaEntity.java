@@ -40,10 +40,6 @@ public class ImageMediaEntity extends MediaEntity implements Parcelable {
      */
     @ImageMimeType
     private String mMimeType;
-    /**
-     * Gif最大尺寸
-     */
-    private static final long MAX_GIF_SIZE = 1024 * 1024L;
 
     {
         this.mType = MediaTypeConstants.MEDIA_TYPE_IMAGE;
@@ -139,10 +135,6 @@ public class ImageMediaEntity extends MediaEntity implements Parcelable {
 
     public boolean isGif() {
         return ImageMimeTypeConstants.IMAGE_GIF.equals(getMimeType());
-    }
-
-    public boolean isGifOverSize() {
-        return isGif() && getSize() > MAX_GIF_SIZE;
     }
 
     @Override

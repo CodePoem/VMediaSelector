@@ -42,6 +42,8 @@ public class SampleActivity extends AppCompatActivity {
     private ArrayList<String> mMediaPathList;
     private ArrayList<Uri> mMediaUris;
 
+    private static final long MAX_GIF_SIZE = 2 * 1024 * 1024L;
+
     @SuppressWarnings("ConstantConditions")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -103,6 +105,7 @@ public class SampleActivity extends AppCompatActivity {
                 .setNeedCamera(mRgNeedCamera.getCheckedRadioButtonId() == R.id.rb_need_camera)
                 .setMultiSelectable(mRgMultiSelectable.getCheckedRadioButtonId() == R.id.rb_multi_select)
                 .setNeedGif(true)
+                .setMaxGifSize(MAX_GIF_SIZE)
                 .selectImage(SampleActivity.this, mMediaUris, new MediaSelectFilesCallback() {
                     @Override
                     public void onSuccess(int resultCode, Intent data, List<Uri> uris,

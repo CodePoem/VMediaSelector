@@ -51,6 +51,10 @@ public class MediaSelectorUtils {
      */
     private boolean mNeedGif = SelectorOptions.DEFAULT_NEED_GIF;
     /**
+     * Gif最大尺寸 单位MB byte数
+     */
+    private long mMaxGifSize = SelectorOptions.DEFAULT_MAX_GIF_SIZE;
+    /**
      * FileProvider 授权标识
      */
     private String mAuthorities;
@@ -205,6 +209,7 @@ public class MediaSelectorUtils {
                 .setMultiMaxNum(mMultiMaxNum)
                 .setNeedCamera(mNeedCamera)
                 .setNeedGif(mNeedGif)
+                .setMaxGifSize(mMaxGifSize)
                 .setSubDir(mSubDir)
                 .setAuthorities(mAuthorities);
     }
@@ -353,6 +358,11 @@ public class MediaSelectorUtils {
 
     public MediaSelectorUtils setNeedGif(boolean needGif) {
         mNeedGif = needGif;
+        return this;
+    }
+
+    public MediaSelectorUtils setMaxGifSize(long maxGifSize) {
+        mMaxGifSize = maxGifSize;
         return this;
     }
 
