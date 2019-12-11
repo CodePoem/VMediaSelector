@@ -9,7 +9,7 @@ def supportConstraintLayoutVer = "1.1.3"
 def vOnResultVerSupportVer = "1.0.3"
 def VMediaSelectorSupportVer = "1.1.2"
 
-def glideVer = "4.10.0"
+def glideVer = "4.9.0"
 
 ext {
     androidSupport = [
