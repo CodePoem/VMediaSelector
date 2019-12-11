@@ -1,6 +1,10 @@
 language: android
 dist: trusty
 sudo: false
+# safelist
+branches:
+  only:
+    - master
 android:
   components:
     - tools
