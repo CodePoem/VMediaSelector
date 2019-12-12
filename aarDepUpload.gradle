@@ -1,0 +1,57 @@
+task uploadSelectorCore(type: Exec) {
+    commandLine './gradlew', ':selector-core:bintrayUpload'
+}
+
+task uploadSelectorCoreImpl(type: Exec) {
+    commandLine './gradlew', ':selector-core-impl:bintrayUpload'
+}
+
+task uploadSelectorUI(type: Exec) {
+    commandLine './gradlew', ':selector-ui:bintrayUpload'
+}
+
+task uploadSelectorUIImpl(type: Exec) {
+    commandLine './gradlew', ':selector-ui-impl:bintrayUpload'
+}
+
+task uploadVMediaSelector(type: Exec) {
+    commandLine './gradlew', ':v-media-selector:bintrayUpload'
+}
+
+task uploadSelectorCoreSupport(type: Exec) {
+    commandLine './gradlew', ':selector-core-support:bintrayUpload'
+}
+
+task uploadSelectorCoreImplSupport(type: Exec) {
+    commandLine './gradlew', ':selector-core-impl-support:bintrayUpload'
+}
+
+task uploadSelectorUISupport(type: Exec) {
+    commandLine './gradlew', ':selector-ui-support:bintrayUpload'
+}
+
+task uploadSelectorUIImplSupport(type: Exec) {
+    commandLine './gradlew', ':selector-ui-impl-support:bintrayUpload'
+}
+
+task uploadVMediaSelectorSupport(type: Exec) {
+    commandLine './gradlew', ':v-media-selector-support:bintrayUpload'
+}
+
+task aarDepUpload(type: Task) {
+}
+
+task aarDepUploadSupport(type: Task) {
+}
+
+uploadSelectorCoreImpl.dependsOn uploadSelectorCore
+uploadSelectorUI.dependsOn uploadSelectorCore
+uploadSelectorUIImpl.dependsOn uploadSelectorUI, uploadSelectorCoreImpl
+uploadVMediaSelector.dependsOn uploadSelectorUIImpl
+aarDepUpload.dependsOn uploadVMediaSelector
+
+uploadSelectorCoreImplSupport.dependsOn uploadSelectorCoreSupport
+uploadSelectorUISupport.dependsOn uploadSelectorCoreSupport
+uploadSelectorUIImplSupport.dependsOn uploadSelectorUISupport, uploadSelectorCoreImplSupport
+uploadVMediaSelectorSupport.dependsOn uploadSelectorUIImplSupport
+aarDepUploadSupport.dependsOn uploadVMediaSelectorSupport

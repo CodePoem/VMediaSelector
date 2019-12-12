@@ -6,6 +6,7 @@ if (IsSupport == "true") {
 }
 
 apply from: "$rootProject.projectDir/aarDepTest.gradle"
+apply from: "$rootProject.projectDir/aarDepUpload.gradle"
 
 buildscript {
     repositories {
