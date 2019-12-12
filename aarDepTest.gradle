@@ -1,17 +1,67 @@
-task aarDepTest(type: Exec) {
+task assmebleSelectorCore(type: Exec) {
     commandLine './gradlew', ':selector-core:assembleRelease'
+}
+
+task assmebleSelectorCoreImpl(type: Exec) {
     commandLine './gradlew', ':selector-core-impl:assembleRelease'
+}
+
+task assmebleSelectorUI(type: Exec) {
     commandLine './gradlew', ':selector-ui:assembleRelease'
+}
+
+task assmebleSelectorUIImpl(type: Exec) {
     commandLine './gradlew', ':selector-ui-impl:assembleRelease'
+}
+
+task assmebleVMediaSelector(type: Exec) {
     commandLine './gradlew', ':v-media-selector:assembleRelease'
+}
+
+task assmebleSample(type: Exec) {
     commandLine './gradlew', ':sample:assembleRelease'
 }
 
-task aarDepTestSupport(type: Exec) {
+task assmebleSelectorCoreSupport(type: Exec) {
     commandLine './gradlew', ':selector-core-support:assembleRelease'
+}
+
+task assmebleSelectorCoreImplSupport(type: Exec) {
     commandLine './gradlew', ':selector-core-impl-support:assembleRelease'
+}
+
+task assmebleSelectorUISupport(type: Exec) {
     commandLine './gradlew', ':selector-ui-support:assembleRelease'
+}
+
+task assmebleSelectorUIImplSupport(type: Exec) {
     commandLine './gradlew', ':selector-ui-impl-support:assembleRelease'
+}
+
+task assmebleVMediaSelectorSupport(type: Exec) {
     commandLine './gradlew', ':v-media-selector-support:assembleRelease'
+}
+
+task assmebleSampleSupport(type: Exec) {
     commandLine './gradlew', ':sample-support:assembleRelease'
 }
+
+task aarDepTest(type: Task) {
+}
+
+task aarDepTestSupport(type: Task) {
+}
+
+assmebleSelectorCoreImpl.dependsOn assmebleSelectorCore
+assmebleSelectorUI.dependsOn assmebleSelectorCore
+assmebleSelectorUIImpl.dependsOn assmebleSelectorUI, assmebleSelectorCoreImpl
+assmebleVMediaSelector.dependsOn assmebleSelectorUIImpl
+assmebleSample.dependsOn assmebleVMediaSelector
+aarDepTest.dependsOn assmebleSample
+
+assmebleSelectorCoreImplSupport.dependsOn assmebleSelectorCoreSupport
+assmebleSelectorUISupport.dependsOn assmebleSelectorCoreSupport
+assmebleSelectorUIImplSupport.dependsOn assmebleSelectorUISupport, assmebleSelectorCoreImplSupport
+assmebleVMediaSelectorSupport.dependsOn assmebleSelectorUIImplSupport
+assmebleSampleSupport.dependsOn assmebleVMediaSelectorSupport
+aarDepTestSupport.dependsOn assmebleSampleSupport
