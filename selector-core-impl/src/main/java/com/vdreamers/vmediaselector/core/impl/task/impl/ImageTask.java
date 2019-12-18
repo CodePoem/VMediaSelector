@@ -210,10 +210,10 @@ public class ImageTask implements IMediaTask<ImageMediaEntity> {
         } else {
             if (isNeedGif) {
                 resultCursor = cr.query(Images.Media.EXTERNAL_CONTENT_URI, columns, selectionId,
-                        new String[]{bucketId, args[0], args[1], args[2]}, order);
+                        new String[]{bucketId, args[0], args[1], args[2], args[3]}, order);
             } else {
                 resultCursor = cr.query(Images.Media.EXTERNAL_CONTENT_URI, columns, selectionId,
-                        new String[]{bucketId, args[0], args[1]}, order);
+                        new String[]{bucketId, args[0], args[1], args[2]}, order);
             }
         }
         return resultCursor;
